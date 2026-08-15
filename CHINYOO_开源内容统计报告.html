@@ -1,0 +1,155 @@
+<!doctype html><html lang=zh><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>CHINYOO 开源内容分级统计报告</title>
+<style>
+*{box-sizing:border-box} body{font-family:-apple-system,Segoe UI,Arial,"Microsoft YaHei",sans-serif;margin:0;background:#f5f8fc;color:#1a2
+}}
+body{color:#1a2332}
+.jumpnav{position:sticky;top:0;background:#0b3d91;padding:10px;z-index:99;display:flex;gap:8px;flex-wrap:wrap}
+.jumpnav a{color:#fff;text-decoration:none;background:#1f6feb;padding:5px 10px;border-radius:5px;font-size:13px}
+.jumpnav a:hover{background:#3b82f6}
+header{background:linear-gradient(135deg,#0b3d91,#1f6feb);color:#fff;padding:40px 24px}
+header h1{margin:0 0 8px;font-size:26px} header p{margin:4px 0;opacity:.92}
+.wrap{max-width:1080px;margin:0 auto;padding:20px}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:18px 0}
+.stat div{background:#fff;border:1px solid #dbe6f5;border-radius:10px;padding:14px 18px;flex:1;min-width:140px;text-align:center}
+.stat b{display:block;font-size:24px;color:#0b3d91}
+h2{color:#0b3d91;border-bottom:2px solid #1f6feb;padding-bottom:6px;margin-top:34px}
+.card{background:#fff;border:1px solid #e2ebf7;border-radius:10px;padding:16px 18px;margin:14px 0;box-shadow:0 1px 3px rgba(11,61,145,.06)}
+.card h3{margin:0 0 8px;font-size:17px}
+.card ul{margin:6px 0;padding-left:20px} .card li{margin:3px 0;line-height:1.5}
+.note{background:#eef4ff;border-radius:6px;padding:8px 10px;margin:10px 0 0;font-size:13px;color:#334}
+.step{background:#fff;border:1px solid #e2ebf7;border-radius:8px;padding:12px 14px;margin:10px 0}
+.step b{color:#0b3d91}
+table{width:100%;border-collapse:collapse;background:#fff;margin:10px 0}
+th,td{border:1px solid #dbe6f5;padding:8px 10px;text-align:left;font-size:13px}
+th{background:#0b3d91;color:#fff}
+code{background:#eef4ff;padding:1px 5px;border-radius:4px;font-size:12px}
+.warn{background:#fff4f4;border:1px solid #f0c0c0;color:#a02020;border-radius:8px;padding:12px 14px;margin:14px 0}
+footer{text-align:center;color:#789;padding:24px;font-size:12px}
+</style></head><body>
+<div class=jumpnav>
+<a href="#overview">总览</a><a href="#A">🌟A 强烈推荐</a>
+<a href="#B">🟡B 去敏后</a><a href="#C">🔴C 禁止</a>
+<a href="#redact">去敏清单</a><a href="#steps">建仓步骤</a>
+</div>
+<header>
+<h1>CHINYOO · 开源内容分级统计报告</h1>
+<p>统计日期：2026-08-15 ｜ 统计范围：D:/外贸（852 HTML + 125 PDF）+ F盘作品全集（59 项目 / 75 工具）+ 求职简历包</p>
+<p>目的：从「我给你做的所有内容」中，筛出值得放进 GitHub 的部分，并标出绝对不能开源的敏感资产。</p>
+</header>
+<div class=wrap>
+
+<div class=warn>
+<b>⚠️ GitHub 现状说明：</b>你这台机器上 <b>gh 未安装、git 未配置用户名/邮箱、也无任何 GitHub 凭据</b>，
+所以我无法直接登录你的仓库 push。本报告先把「值得开源什么」算清楚，并已在
+<code>D:/外贸/GitHub仓库准备/</code> 铺好仓库骨架（README + .gitignore + 开源资产/），你连上账号即可上传。
+</div>
+
+<h2 id=overview>一、总体盘点（真实数字）</h2>
+<div class=stat>
+<div><b>852</b>个 HTML（D盘递归）</div>
+<div><b>125</b>个 PDF</div>
+<div><b>59</b>个 CHINYOO_* 项目（F盘）</div>
+<div><b>75</b>个主力 HTML 工具</div>
+<div><b>3</b>份求职简历</div>
+</div>
+<p class="note">说明：F 盘「作品全集」本次磁盘未挂载出（ls 为空），59 项目/75 工具数字取自项目长期记忆；
+D 盘为客户开发期落地的 850+ 交付物。两者大量重叠（D 盘多为 F 盘的衍生/迭代成品）。</p>
+
+<h2 id=A>二、🌟 A 级 · 强烈推荐开源（通用·零敏感或易去敏）</h2>
+
+    <div class="card" style="border-left:6px solid #1f6feb">
+      <h3 style="color:#1f6feb">自建单文件 Web 应用（蓝白·零依赖）</h3>
+      <ul><li>CHINYOO_客户管理CRM系统.html — 自建 CRM，localStorage 持久化、JSON 导出</li><li>CHINYOO_价值对比表_嫌贵应对工具.html — 三栏对比+论证文案生成器</li><li>鹏哥30天变强训练系统.html — 打字测速+话术库+跟单SOP+面试打卡</li><li>CHINYOO_客户跟进指挥中心.html / 客户推荐助手.html / 客户应答_产品速查台.html</li><li>社媒运营台.html / CHINYOO_素材库.html</li></ul>
+      <p class="note"><b>开源价值：</b>通用 SaaS 思路的纯前端实现，去掉预置客户样板后即开源友好；对想学 localStorage 应用的开发者有参考价值。</p>
+    </div>
+    <div class="card" style="border-left:6px solid #1f6feb">
+      <h3 style="color:#1f6feb">通用生成器 / 脚本基建</h3>
+      <ul><li>build_two_catalogs.py、catalog 提取脚本、price 提取脚本（extract_prices.py）</li><li>convert_videos.py — 批量 H.264 转码（ffmpeg 封装，含 replace/mirror 双模式）</li><li>gen_*.py 系列 — 各类 HTML 报告的批量生成骨架（base64 内嵌、URL 编码、jumpnav 注入）</li></ul>
+      <p class="note"><b>开源价值：</b>最值得开源的一块：把『读 Excel→生成自包含 HTML/PDF』的流水线抽象出来，任何做外贸/电商目录的人都能复用。纯工具、零商业数据。</p>
+    </div>
+    <div class="card" style="border-left:6px solid #1f6feb">
+      <h3 style="color:#1f6feb">外贸方法论 / SOP 文库（已抽象为通用框架）</h3>
+      <ul><li>电工产品视频拍摄对标库.html — 4 类拍法+分镜模板+中英 Hook+14天计划</li><li>AI外贸开发工作流.md / 获客系统流程.md — 找客户→挖决策人→写开发信→追踪 全流程</li><li>CHINYOO_老板平台客户开发作战手册.html — 7 步 SOP + 可勾选任务卡</li><li>CHINYOO_未回复客户_结语铁律与模板.html — 已抽象成通用『选择题式温柔结语』公式</li><li>CHINYOO_开发信模板库.html / 自主开发客户话术手册 / 拿下决策人实战手册</li><li>CHINYOO_十环成交系统 / 外贸成交七篇实战话术 / 高回复谈判话术_双语实战手册</li><li>FB_B端客户运营实战指南.html / CHINYOO_FB专业内容全案_学Fluke.html（去客户示例）</li><li>外贸话术模板_FB社媒_WA_开发信.html / 销冠话术实战模板库</li></ul>
+      <p class="note"><b>开源价值：</b>把『研究式精准开发』『5 段框架』『微承诺阶梯』等打法写成可复用 SOP，是真正的方法论资产，不绑定任何公司。</p>
+    </div>
+    <div class="card" style="border-left:6px solid #1f6feb">
+      <h3 style="color:#1f6feb">简历 / 作品集模板（去敏后）</h3>
+      <ul><li>鹏哥简历_外贸业务员.html / _AI应用工程师.html / _人工智能机器人方向.html</li></ul>
+      <p class="note"><b>开源价值：</b>三份蓝白专业排版可直接当『简历模板』范例开源；需把教育背景占位和真实战绩改成示意数据。</p>
+    </div>
+    <div class="card" style="border-left:6px solid #1f6feb">
+      <h3 style="color:#1f6feb">静态独立站模板（去敏产品图）</h3>
+      <ul><li>CHINYOO B2B 单页独立站 — SEO+JSON-LD 骨架（原 13 页+47 图+8 篇博客）</li></ul>
+      <p class="note"><b>开源价值：</b>纯静态站工程结构（Netlify 部署）值得开源；真实产品图/公司名需替换成占位。</p>
+    </div>
+<p class="note"><b>建议：</b>A 级是仓库的「门面」，价值最高、风险最低。优先上传这一类。</p>
+
+<h2 id=B>三、🟡 B 级 · 去敏后可开源（结构有价值，含商业信息需脱敏）</h2>
+
+    <div class="card" style="border-left:6px solid #e8a200">
+      <h3 style="color:#e8a200">公司介绍 / 画册（去敏后）</h3>
+      <ul><li>CHINYOO_公司介绍_精致版.html / CHINYOO_公司画册_真实工厂版.html</li></ul>
+      <p class="note"><b>开源价值：</b>版式精致，可作『企业介绍页模板』；必须删真实工厂图、联系方式、公司名，换成占位图/变量。</p>
+    </div>
+    <div class="card" style="border-left:6px solid #e8a200">
+      <h3 style="color:#e8a200">产品目录 / 价目表（去价格后）</h3>
+      <ul><li>CHINYOO_全产品价目表 / 万用表电笔_价目画册 / 东南亚*目录 / 详细产品目录_每款带介绍价格</li><li>CHINYOO_北美专业版_产品目录 / 钳形表册 / 电笔大全册 / ACE海报版系列</li></ul>
+      <p class="note"><b>开源价值：</b>目录结构和版式有价值；真实出厂价（EXW/FOB）属核心商业机密，必须删干净或改成示例价。</p>
+    </div>
+    <div class="card" style="border-left:6px solid #e8a200">
+      <h3 style="color:#e8a200">客户开发包『模板』（去具体客户后）</h3>
+      <ul><li>ALLTRADE_产品一页纸 / AS_Vidovic_产品一页纸 / MASTER_TOOL_产品一页纸</li><li>CHINYOO_客户要资料四件套回复包 / 客户发送资料包_严谨版</li></ul>
+      <p class="note"><b>开源价值：</b>『一页纸』『四件套回复包』的结构可复用；但里面是具体客户名/型号/价格，需抽象成模板。</p>
+    </div>
+    <div class="card" style="border-left:6px solid #e8a200">
+      <h3 style="color:#e8a200">周报 / 月报 / 工作记录（去具体数据后）</h3>
+      <ul><li>CHINYOO_月报与周报_鹏哥 / 周报_客户开发 / 33天工作全记录 / 干了什么_工作成果时间线</li></ul>
+      <p class="note"><b>开源价值：</b>汇报结构可参考；真实客户数/成交额需脱敏。</p>
+    </div>
+<p class="note"><b>建议：</b>B 级上传前必须按下方「去敏清单」处理，否则会泄露商业机密。</p>
+
+<h2 id=C>四、🔴 C 级 · 绝对不要开源（敏感商业资产 / 隐私）</h2>
+
+    <div class="card" style="border-left:6px solid #c0392b">
+      <h3 style="color:#c0392b">客户数据库（核心机密·禁止）</h3>
+      <ul><li>CHINYOO_CRM客户库.json（60+ 客户含邮箱电话）</li><li>all_customers_781.json / crm_230_raw.txt / 客户去重*.json / 精准客户候选*.json</li><li>海关数据完整进口商清单 / 海关数据真实进口商分析</li><li>CHINYOO_老板名片开发客户清单.xlsx / WA加的客户清单.html</li><li>CHINYOO_平台客户筛选_230家 / 目标客户清洗与分层报告 / 客户深挖_官网与联系方式</li><li>最有希望50客户_可发开发信 / CHINYOO_Fluke采购方清单</li></ul>
+    </div>
+    <div class="card" style="border-left:6px solid #c0392b">
+      <h3 style="color:#c0392b">真实报价 / 成本数据（核心机密·禁止）</h3>
+      <ul><li>price_map.json / found_prices*.json / multimeter_prices.json / 客户报价_hot_18.json</li><li>F盘两份报价表 xlsx（正原外贸报价表-2026年4月调价版 / 2026万用表新报价系统采购价格）</li><li>CHINYOO_EXW价目表 / CHINYOO_全产品价目表（含真实价）</li></ul>
+    </div>
+    <div class="card" style="border-left:6px solid #c0392b">
+      <h3 style="color:#c0392b">真实工厂 / 产品图 / 视频（版权+商业机密·禁止）</h3>
+      <ul><li>D:/外贸/图片/ / 视频/ / 视频_H264/ / Facebook发帖素材/</li><li>产品素材归档/ / 老板原始素材/ / 自家报价目录/ / CHINYOO_认证证书包/</li></ul>
+    </div>
+    <div class="card" style="border-left:6px solid #c0392b">
+      <h3 style="color:#c0392b">私人联系方式 / 真实公司资料（隐私·禁止）</h3>
+      <ul><li>sugonvoltage@gmail.com / 15325071933（含在大量文件内）</li><li>CHINYOO_Company_Profile_EN / 鹏哥个人名片 / 个人与公司简介 / 工厂简介与产能说明</li></ul>
+    </div>
+    <div class="card" style="border-left:6px solid #c0392b">
+      <h3 style="color:#c0392b">具体客户沟通存档（隐私+保密·禁止）</h3>
+      <ul><li>CHINYOO_开发信_越南客户_示例.eml / Zeus_Electric_回复方案 / Zachary_* / UNI-TREND_*</li><li>科特迪瓦客户* / 德国展会3_客户开发 / PowerTech_跟进话术 / Sanliman_WA / Steren /</li><li>CHINYOO_克罗地亚汽修客户开发包 / CHINYOO_Fluke采购方清单_推便宜替代品</li></ul>
+    </div>
+<div class="warn"><b>铁律：</b>C 级任何文件都禁止进 GitHub。客户数据、真实报价、私人联系方式、真实工厂/产品图、
+具体客户沟通存档——一旦公开，既违反你与客户/公司的保密关系，也暴露你的商业底牌。</div>
+
+<h2 id=redact>五、去敏必删清单（上传 B 级前逐条核对）</h2>
+<table><tr><th>原文（必须删/替换）</th><th>替换为</th></tr><tr><td><code>sugonvoltage@gmail.com</code></td><td><code>[YOUR_EMAIL]</code></td></tr><tr><td><code>15325071933 / +86 153 2507 1933</code></td><td><code>[YOUR_PHONE]</code></td></tr><tr><td><code>温州正原电子 / CHINYOO Electronics</code></td><td><code>[YOUR_COMPANY]（若做通用模板）</code></td></tr><tr><td><code>所有客户名 / 邮箱 / 电话 / 官网 / 决策人</code></td><td><code>全部删除，换成示例占位</code></td></tr><tr><td><code>所有真实出厂价（EXW/FOB RMB/USD）</code></td><td><code>删除，改成示意价或留公式</code></td></tr><tr><td><code>真实工厂大楼 / 产品实拍图</code></td><td><code>删除，换成占位图或你自绘示意图</code></td></tr><tr><td><code>胡总 / 老板名 / 同事名</code></td><td><code>删除或化名</code></td></tr></table>
+
+<h2 id=steps>六、建仓步骤（我已做 / 待你做）</h2>
+<div class='step'><b>① 注册 / 登录 GitHub（你来做）</b><br><span>GitHub 账号我无法代注册。建议用户名用 peng-ai-trade 或你的英文名。</span></div><div class='step'><b>② 本地 git 初始化（已帮你铺好框架）</b><br><span>我在 D:/外贸/GitHub仓库准备/ 建了 README.md + .gitignore + 开源资产/，目录即未来仓库根。</span></div><div class='step'><b>③ 放入 A 级开源资产（进行中）</b><br><span>已复制零敏感的通用方法论（视频对标库、AI外贸工作流、获客流程、外贸词汇本）进 开源资产/。</span></div><div class='step'><b>④ 去敏后补入 B 级</b><br><span>按『去敏必删清单』处理公司介绍/目录/简历模板，再放进仓库。</span></div><div class='step'><b>⑤ 连接远程并推送（你来做）</b><br><span>git remote add origin <你的仓库URL> → git add . → git commit → git push。</span></div><div class='step'><b>⑥ 写 LICENSE + 完善 README</b><br><span>建议 MIT 或 CC-BY-NC；README 已含定位与目录说明，你补截图即可。</span></div>
+
+<h2>七、我已在 GitHub仓库准备/ 帮你做好的</h2>
+<ul>
+<li><code>README.md</code> — 仓库定位、目录规划、去敏声明、使用许可建议</li>
+<li><code>.gitignore</code> — 已排除所有敏感数据（客户 json / 报价 xlsx / 图片视频 / 私人简历 / 公司真实资料）</li>
+<li><code>开源资产/</code> — 已放入零敏感的通用方法论：电工产品视频拍摄对标库、AI外贸开发工作流、获客系统流程、外贸专业词汇本</li>
+</ul>
+<p class="note">下一步：你注册/登录 GitHub 后，进入该目录 <code>git init</code> → 补入 A 级去敏文件 → <code>git remote add</code> → push。
+需要我把 A 级里「自建单文件应用」批量复制并自动去敏（删预置客户样板），说一声我直接做。</p>
+
+</div>
+<footer>CHINYOO 开源统计 · 由 WorkBuddy 生成 · 2026-08-15 ｜ 本报告不含任何客户/报价/隐私数据</footer>
+</body></html>
