@@ -1,0 +1,74 @@
+# ===== 敏感商业数据（绝对禁止入库）=====
+# 客户数据库
+*.json
+!package.json
+crm_230_raw.txt
+*客户*.json
+*客户*.xlsx
+*客户清单*
+*海关数据*
+*精准客户*
+*最有希望*
+*目标客户*
+*客户深挖*
+*老板名片*
+
+# 报价 / 成本
+*报价*.xlsx
+*报价表*.xlsx
+price_map.json
+found_prices*.json
+multimeter_prices.json
+客户报价_*.json
+EXW价目表*
+
+# 真实图 / 视频（版权 + 商业机密）
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.mp4
+*.mov
+*.hevc
+图片/
+视频/
+视频_H264/
+Facebook发帖素材/
+产品素材归档/
+老板原始素材/
+自家报价目录/
+CHINYOO_认证证书包/
+
+# 私人简历 / 真实公司资料
+求职简历包/
+CHINYOO_Company_Profile*
+CHINYOO_公司画册*
+CHINYOO_公司介绍*
+鹏哥个人名片*
+个人与公司简介*
+工厂简介与产能说明*
+
+# 具体客户沟通存档
+*_回复方案*
+*_客户开发包*
+*Zeus*
+*Zachary*
+*UNI-TREND*
+*科特迪瓦*
+*德国展会3*
+*PowerTech*
+*Sanliman*
+*Steren*
+*.eml
+
+# ===== 系统 / 临时 =====
+.DS_Store
+Thumbs.db
+.vscode/
+__pycache__/
+node_modules/
+_tmp*/
+_preview*
+_待清理归档/
+*.log
+NUL
