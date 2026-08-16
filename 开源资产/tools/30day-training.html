@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>鹏哥30天变强训练系统</title>
+<style>
+  :root{
+    --blue:#1a56db; --blue-d:#1e40af; --blue-dd:#1e3a8a;
+    --blue-l:#eff6ff; --blue-ll:#dbeafe; --line:#bfdbfe;
+    --txt:#1e293b; --muted:#64748b; --bg:#f5f9ff;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:"PingFang SC","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--txt); line-height:1.6;}
+  .wrap{max-width:1080px; margin:0 auto; padding:20px 16px 80px;}
+  /* 头部 */
+  header{background:linear-gradient(135deg,var(--blue-d),var(--blue)); color:#fff; border-radius:14px; padding:22px 24px; margin-bottom:18px; box-shadow:0 4px 14px rgba(26,86,219,.18);}
+  header h1{font-size:22px; letter-spacing:1px;}
+  header p{opacity:.85; font-size:13px; margin-top:4px;}
+  .kpi{display:flex; gap:12px; margin-top:16px; flex-wrap:wrap;}
+  .kpi .box{flex:1; min-width:150px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25); border-radius:10px; padding:10px 14px;}
+  .kpi .box b{font-size:24px; display:block;}
+  .kpi .box span{font-size:12px; opacity:.85;}
+  /* 进度条 */
+  .prog-wrap{background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin-bottom:18px;}
+  .prog-wrap h3{font-size:14px; color:var(--blue-d); margin-bottom:12px;}
+  .pbar{margin-bottom:12px;}
+  .pbar .lab{display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px;}
+  .pbar .lab b{color:var(--blue-d);}
+  .track{height:10px; background:var(--blue-ll); border-radius:6px; overflow:hidden;}
+  .fill{height:100%; background:linear-gradient(90deg,var(--blue),var(--blue-d)); width:0%; transition:width .4s;}
+  /* Tab */
+  .tabs{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px;}
+  .tab{background:#fff; border:1px solid var(--line); color:var(--blue-d); padding:9px 16px; border-radius:9px; cursor:pointer; font-size:14px; font-weight:600;}
+  .tab.active{background:var(--blue); color:#fff; border-color:var(--blue);}
+  .panel{display:none; background:#fff; border:1px solid var(--line); border-radius:12px; padding:20px;}
+  .panel.active{display:block;}
+  .panel h2{color:var(--blue-d); font-size:18px; margin-bottom:6px;}
+  .panel .sub{color:var(--muted); font-size:13px; margin-bottom:16px;}
+  /* 卡片/列表 */
+  .card{border:1px solid var(--line); border-radius:10px; padding:14px 16px; margin-bottom:12px; background:var(--blue-l);}
+  .card h4{color:var(--blue-d); font-size:15px; margin-bottom:6px;}
+  .card .meta{font-size:12px; color:var(--muted);}
+  .chk{display:flex; align-items:flex-start; gap:10px; padding:10px 12px; border:1px solid var(--line); border-radius:9px; margin-bottom:8px; background:#fff; cursor:pointer; transition:background .2s;}
+  .chk:hover{background:var(--blue-l);}
+  .chk input{margin-top:4px; width:17px; height:17px; accent-color:var(--blue); cursor:pointer;}
+  .chk.done{background:var(--blue-ll); opacity:.75;}
+  .chk.done .ct{text-decoration:line-through;}
+  .chk .ct{flex:1; font-size:14px;}
+  .chk .ct .en{color:var(--blue-dd); font-weight:600;}
+  .chk .ct .cn{color:var(--muted); font-size:13px;}
+  .copybtn{background:var(--blue); color:#fff; border:none; padding:4px 10px; border-radius:6px; font-size:12px; cursor:pointer;}
+  .copybtn:hover{background:var(--blue-d);}
+  /* 打字器 */
+  .typing-target{background:var(--blue-dd); color:#fff; padding:16px 18px; border-radius:10px; font-size:18px; line-height:1.9; font-family:Consolas,monospace; letter-spacing:.5px; margin-bottom:10px; min-height:60px;}
+  .typing-target .ok{color:#7dd3fc;}
+  .typing-target .bad{color:#fca5a5; background:rgba(255,0,0,.2); border-radius:2px;}
+  .typing-target .cur{border-left:2px solid #fbbf24; animation:blink 1s infinite;}
+  @keyframes blink{50%{opacity:0;}}
+  .typing-input{width:100%; padding:12px 14px; font-size:16px; border:2px solid var(--line); border-radius:9px; font-family:Consolas,monospace;}
+  .typing-input:focus{outline:none; border-color:var(--blue);}
+  .tstat{display:flex; gap:18px; margin:12px 0; flex-wrap:wrap;}
+  .tstat .s{background:var(--blue-l); border:1px solid var(--line); padding:8px 16px; border-radius:8px; text-align:center;}
+  .tstat .s b{font-size:22px; color:var(--blue-d); display:block;}
+  .tstat .s span{font-size:12px; color:var(--muted);}
+  .tbtn{background:var(--blue); color:#fff; border:none; padding:9px 20px; border-radius:8px; cursor:pointer; font-size:14px; font-weight:600; margin-right:8px;}
+  .tbtn.sec{background:#fff; color:var(--blue-d); border:1px solid var(--line);}
+  .tbtn:hover{opacity:.9;}
+  /* 打卡日历 */
+  .cal{display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-top:12px;}
+  .day{aspect-ratio:1; border:1px solid var(--line); border-radius:9px; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; background:#fff; font-size:13px; transition:all .15s;}
+  .day:hover{border-color:var(--blue);}
+  .day.on{background:var(--blue); color:#fff; border-color:var(--blue);}
+  .day .d{font-weight:700; font-size:16px;}
+  .day .mk{font-size:10px; opacity:.8;}
+  /* SOP */
+  .sop{border:1px solid var(--line); border-radius:10px; margin-bottom:10px; overflow:hidden;}
+  .sop-h{background:var(--blue-l); padding:12px 16px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-weight:600; color:var(--blue-d);}
+  .sop-h .num{background:var(--blue); color:#fff; width:26px; height:26px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:13px; margin-right:10px;}
+  .sop-b{padding:14px 16px; display:none; border-top:1px solid var(--line); background:#fff;}
+  .sop.open .sop-b{display:block;}
+  .sop-b table{width:100%; border-collapse:collapse; font-size:13px;}
+  .sop-b td{padding:6px 8px; border-bottom:1px dashed var(--blue-ll); vertical-align:top;}
+  .sop-b td:first-child{color:var(--blue-d); font-weight:600; width:90px; white-space:nowrap;}
+  .tag{display:inline-block; background:var(--blue-ll); color:var(--blue-dd); font-size:11px; padding:2px 8px; border-radius:10px; margin-left:6px;}
+  h3.sec{color:var(--blue-d); font-size:15px; margin:18px 0 10px; padding-left:10px; border-left:4px solid var(--blue);}
+  .note{background:#fffbeb; border:1px solid #fde68a; border-radius:9px; padding:10px 14px; font-size:13px; color:#92400e; margin:12px 0;}
+  .good{background:#ecfdf5; border:1px solid #a7f3d0; color:#065f46;}
+  @media(max-width:640px){ .kpi .box{min-width:45%;} .cal{grid-template-columns:repeat(5,1fr);} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>💪 鹏哥 30 天变强训练系统</h1>
+    <p>不安慰，只训练。打字 · 英语 · 跟单 三块短板，30 天练成硬实力。进度自动保存。</p>
+    <div class="kpi">
+      <div class="box"><b id="k-days">0</b><span>已打卡天数 / 30</span></div>
+      <div class="box"><b id="k-typing">59</b><span>当前打字(字/分) 目标100</span></div>
+      <div class="box"><b id="k-eng">0</b><span>英语话术已背 / <span id="k-eng-total">0</span></span></div>
+      <div class="box"><b id="k-sop">0</b><span>跟单流程已掌握 / 9</span></div>
+    </div>
+  </header>
+
+  <div class="prog-wrap">
+    <h3>📊 三大短板进度</h3>
+    <div class="pbar"><div class="lab"><span>⌨️ 打字速度（59 → 100 字/分）</span><b id="pl-t">0%</b></div><div class="track"><div class="fill" id="pf-t"></div></div></div>
+    <div class="pbar"><div class="lab"><span>🗣️ 外贸英语话术（背熟即用）</span><b id="pl-e">0%</b></div><div class="track"><div class="fill" id="pf-e"></div></div></div>
+    <div class="pbar"><div class="lab"><span>📦 跟单全流程（9步SOP）</span><b id="pl-s">0%</b></div><div class="track"><div class="fill" id="pf-s"></div></div></div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-p="p1">⌨️ 打字训练</div>
+    <div class="tab" data-p="p2">🗣️ 英语话术库</div>
+    <div class="tab" data-p="p3">📦 跟单全流程SOP</div>
+    <div class="tab" data-p="p4">🎯 面试翻身仗</div>
+    <div class="tab" data-p="p5">📅 30天打卡</div>
+  </div>
+
+  <!-- ============ Tab1 打字 ============ -->
+  <div class="panel active" id="p1">
+    <h2>⌨️ 打字训练器（直接在下面练）</h2>
+    <div class="sub">照着上面打，实时出速度和正确率。素材全是外贸英语句——练打字的同时把英语也背了，一举两得。</div>
+
+    <div class="typing-target" id="tt"></div>
+    <input class="typing-input" id="ti" placeholder="点击这里开始打上面那句…（开始输入即计时）" autocomplete="off">
+    <div class="tstat">
+      <div class="s"><b id="st-speed">0</b><span>字/分钟</span></div>
+      <div class="s"><b id="st-acc">100%</b><span>正确率</span></div>
+      <div class="s"><b id="st-time">0s</b><span>用时</span></div>
+      <div class="s"><b id="st-best">59</b><span>历史最快</span></div>
+    </div>
+    <button class="tbtn" id="btn-next">换一句</button>
+    <button class="tbtn sec" id="btn-reset">重打这句</button>
+
+    <h3 class="sec">📈 4周提速计划（59 → 100）</h3>
+    <div id="typing-plan"></div>
+    <div class="note">💡 关键：先求<b>准</b>再求快。正确率稳在95%以上，速度自然涨。每天就20分钟，别贪多，坚持比猛练重要。</div>
+  </div>
+
+  <!-- ============ Tab2 英语话术 ============ -->
+  <div class="panel" id="p2">
+    <h2>🗣️ 外贸英语话术库（背熟就能接客户）</h2>
+    <div class="sub">B2B外贸90%是书面英语。把这几十句背到滚瓜烂熟，开发、报价、跟进、议价、出货全场景够用。点「复制」直接发客户，点☑️标记"已背"。</div>
+    <div id="eng-list"></div>
+
+    <h3 class="sec">🏭 你自家产品的英文介绍（必背3段）</h3>
+    <div id="prod-intro"></div>
+  </div>
+
+  <!-- ============ Tab3 跟单SOP ============ -->
+  <div class="panel" id="p3">
+    <h2>📦 外贸跟单全流程 SOP（9步，照着学就会）</h2>
+    <div class="sub">跟单是流程活，不是天赋。从下询盘到出货售后，每一步做什么、用什么单据、英文怎么说、注意什么，全在这。点开每步看明细，掌握了就☑️。</div>
+    <div id="sop-list"></div>
+  </div>
+
+  <!-- ============ Tab4 面试翻身 ============ -->
+  <div class="panel" id="p4">
+    <h2>🎯 面试翻身仗：把短板变成下次的底气</h2>
+    <div class="sub">义乌面试暴露的3个问题，逐个给你应对打法。下次再被问到，这么答。</div>
+    <div id="interview-list"></div>
+    <div class="note good">🏆 <b>你的差异化王牌（简历&面试必讲）：</b>3周独立搭建AI外贸获客闭环——59个项目、75个工具、1058条客户总表、上线英文独立站、每日3精准客户自动化。普通外贸员5年做不出一个。这是你跟"英语好但只会发邮件"的人拉开差距的地方。</div>
+  </div>
+
+  <!-- ============ Tab5 打卡 ============ -->
+  <div class="panel" id="p5">
+    <h2>📅 30天打卡（点格子打卡，自动保存）</h2>
+    <div class="sub">每天完成「打字20分钟 + 背5句英语 + 学1步跟单」就点亮当天。连续30天，你会看到完全不一样的自己。</div>
+    <div class="cal" id="cal"></div>
+    <div class="note">✅ 每日三件套：① 打字20分钟（Tab1）② 背5句英语（Tab2）③ 学1步跟单（Tab3）。做完点上面的格子。</div>
+  </div>
+
+</div>
+
+<script>
+const LS='pengqiang_v1';
+let S=JSON.parse(localStorage.getItem(LS)||'{}');
+S.days=S.days||{}; S.eng=S.eng||{}; S.sop=S.sop||{}; S.plan=S.plan||{}; S.best=S.best||59;
+function save(){localStorage.setItem(LS,JSON.stringify(S));}
+
+/* ---------- 打字素材（外贸英语句） ---------- */
+const SENTS=[
+"We are a factory of digital multimeters since 2008.",
+"Our products have CE FCC and RoHS certificates.",
+"The price is EXW Wenzhou, not including tax and freight.",
+"We can offer you a sample for testing first.",
+"Our monthly capacity is two hundred thousand pieces.",
+"This model can measure AC DC voltage and resistance.",
+"Could you tell me your main market and monthly quantity?",
+"We support OEM and can print your logo on the product.",
+"The delivery time is about fifteen days after deposit.",
+"Our clamp meter can measure current up to six hundred amps.",
+"Quality is our culture, we offer one year warranty.",
+"Please check the attached catalog and price list.",
+"This is our best selling model in Southeast Asia.",
+"We can give you a better price for a larger quantity.",
+"Thank you for your inquiry, I will reply to you soon.",
+"The minimum order quantity is five hundred pieces.",
+"We accept T T payment and thirty percent deposit.",
+"Let me know if you need any technical support.",
+"Our multimeter has true RMS and NCV function.",
+"Looking forward to building a long term cooperation with you."
+];
+let curSent=SENTS[0], startT=null, done=false;
+
+function renderTarget(){
+  const el=document.getElementById('tt');
+  const typed=document.getElementById('ti').value;
+  let html='';
+  for(let i=0;i<curSent.length;i++){
+    const ch=curSent[i];
+    let cls='';
+    if(i<typed.length){ cls = typed[i]===ch ? 'ok':'bad'; }
+    else if(i===typed.length){ cls='cur'; }
+    html+='<span class="'+cls+'">'+(ch===' '?'&nbsp;':ch)+'</span>';
+  }
+  el.innerHTML=html;
+}
+function newSent(){ curSent=SENTS[Math.floor(Math.random()*SENTS.length)]; resetTyping(); }
+function resetTyping(){ document.getElementById('ti').value=''; startT=null; done=false; renderTarget(); updStat(0,100,0); }
+function updStat(spd,acc,tm){
+  document.getElementById('st-speed').textContent=spd;
+  document.getElementById('st-acc').textContent=acc+'%';
+  document.getElementById('st-time').textContent=tm+'s';
+  document.getElementById('st-best').textContent=S.best;
+  document.getElementById('k-typing').textContent=S.best;
+}
+document.getElementById('ti').addEventListener('input',function(){
+  const v=this.value;
+  if(!startT && v.length>0) startT=Date.now();
+  renderTarget();
+  if(!startT){updStat(0,100,0);return;}
+  const sec=(Date.now()-startT)/1000;
+  let correct=0; for(let i=0;i<v.length;i++){ if(v[i]===curSent[i]) correct++; }
+  const acc=v.length?Math.round(correct/v.length*100):100;
+  const spd=sec>0?Math.round(correct/sec*60):0;
+  updStat(spd,acc,Math.round(sec));
+  if(v===curSent && !done){
+    done=true;
+    if(spd>S.best){S.best=spd; save();}
+    updStat(spd,acc,Math.round(sec));
+  }
+});
+document.getElementById('btn-next').onclick=newSent;
+document.getElementById('btn-reset').onclick=resetTyping;
+
+/* ---------- 打字4周计划 ---------- */
+const PLAN=[
+ {w:'第1周（59→70）',d:'熟悉键位+外贸高频词。每天20分钟，专练产品型号和短句，正确率优先冲到95%。',t:['每天20分钟盲打练习','专练 multimeter/clamp/voltage 等产品词','正确率达到95%再提速','本页打字器每天打满10句']},
+ {w:'第2周（70→80）',d:'盲打提速。每天25分钟，开始打完整句子，强迫不看键盘。',t:['每天25分钟','打完整外贸句子（本页素材）','全程不看键盘','记录每天最快速度']},
+ {w:'第3周（80→90）',d:'准确率与速度并重。每天25分钟，打报价邮件段落。',t:['每天25分钟','打完整报价邮件','正确率稳定96%+','模拟给客户回邮件场景']},
+ {w:'第4周（90→100+）',d:'实战模拟。每天30分钟，限时打完整开发信，冲刺100。',t:['每天30分钟','限时打完整开发信','速度冲100字/分','连续3天稳定100即达标']}
+];
+document.getElementById('typing-plan').innerHTML=PLAN.map((p,i)=>{
+  const id='plan'+i;
+  return '<div class="card"><h4>'+p.w+'</h4><div class="meta" style="margin-bottom:8px">'+p.d+'</div>'+
+   p.t.map((x,j)=>'<label class="chk'+(S.plan[id+j]?' done':'')+'"><input type="checkbox" data-k="'+id+j+'" data-g="plan" '+(S.plan[id+j]?'checked':'')+'><span class="ct">'+x+'</span></label>').join('')+'</div>';
+}).join('');
+
+/* ---------- 英语话术库 ---------- */
+const ENG={
+ '开发客户':[
+  ["We are a factory of digital multimeters and test tools since 2008, with CE/FCC/RoHS.","我们是2008年建厂的专业万用表&测试工具工厂，有CE/FCC/RoHS认证。"],
+  ["Our factory capacity is 200,000 pieces per month, supporting OEM and ODM.","我们月产能20万台，支持OEM和ODM贴牌。"],
+  ["Same function as big brands, but our factory price helps you keep price-sensitive customers.","功能和大牌一样，但我们出厂价能帮你留住对价格敏感的客户。"],
+  ["May I send you our catalog and some hot-selling models for reference?","我可以发您我们的目录和一些热卖型号参考吗？"],
+  ["We can offer free samples for you to test the quality first.","我们可以提供免费样品让您先测试质量。"]
+ ],
+ '报价':[
+  ["The price is EXW Wenzhou, not including tax and freight.","这个价格是温州出厂价，不含税和运费。"],
+  ["The unit price is based on the quantity, the more you order the better the price.","单价按数量定，量越大价格越好。"],
+  ["This quotation is valid for 30 days.","本报价30天内有效。"],
+  ["For orders over 5,000 pieces, we can offer a 5-8% discount.","5000台以上的订单，我们可以给5-8%的折扣。"],
+  ["Please find the attached price list for our main models.","请查收附件中我们主力型号的价格表。"]
+ ],
+ '跟进':[
+  ["Just following up on the catalog I sent, have you had a chance to review it?","跟进一下我发的目录，您有时间看一下吗？"],
+  ["Is there any model you are interested in? I can send more details.","您对哪个型号感兴趣吗？我可以发更多资料。"],
+  ["May I know your main market and monthly quantity, so I can offer the best price?","方便告诉我您的主销市场和月用量吗？这样我能报最好的价。"],
+  ["Would you like to start with a small trial order or a sample first?","您想先从小额试单或样品开始吗？"],
+  ["I am always here if you have any questions about the products.","产品有任何问题我随时都在。"]
+ ],
+ '议价':[
+  ["I understand price matters, but let me show you the value behind it.","我理解价格重要，但请让我说明这个价格背后的价值。"],
+  ["Compared with the same quality, our price is already very competitive.","同等品质比，我们的价格已经很有竞争力了。"],
+  ["This price includes certification, warranty and stable quality, not just the product.","这个价格包含了认证、质保和稳定品质，不只是产品本身。"],
+  ["If you can increase the quantity, I can apply a better price for you.","如果您能加量，我可以帮您申请更好的价格。"],
+  ["We never compromise on quality, that is why our clients stay with us for years.","我们绝不在品质上妥协，这就是客户多年一直跟我们合作的原因。"]
+ ],
+ '订单与出货':[
+  ["Please confirm the Proforma Invoice, then we will arrange production.","请确认形式发票，然后我们安排生产。"],
+  ["We need 30% deposit to start production, balance before shipment.","开工需30%订金，出货前付清尾款。"],
+  ["The delivery time is about 15 days after we receive the deposit.","收到订金后约15天交货。"],
+  ["We will send you inspection photos and video before shipment.","出货前我们会发验货照片和视频给您。"],
+  ["The goods have been shipped, here is the tracking number and B/L.","货已发出，这是快递单号和提单。"]
+ ],
+ '售后':[
+  ["We offer one year warranty for all our products.","我们所有产品质保一年。"],
+  ["If there is any quality problem, we will replace or refund.","如有质量问题，我们包换或退款。"],
+  ["Please send us photos or video of the issue, we will solve it quickly.","请发问题照片或视频给我们，我们会快速解决。"],
+  ["Thank you for your feedback, it helps us improve.","感谢您的反馈，这帮我们改进。"]
+ ]
+};
+let engTotal=0, engHtml='';
+for(const cat in ENG){
+  engHtml+='<h3 class="sec">'+cat+'</h3>';
+  ENG[cat].forEach((s,i)=>{
+    const id='eng_'+cat.replace(/\W/g,'')+i; engTotal++;
+    engHtml+='<div class="chk'+(S.eng[id]?' done':'')+'"><input type="checkbox" data-k="'+id+'" data-g="eng" '+(S.eng[id]?'checked':'')+'><span class="ct"><span class="en">'+s[0]+'</span><br><span class="cn">'+s[1]+'</span></span><button class="copybtn" data-c="'+s[0].replace(/"/g,'&quot;')+'">复制</button></div>';
+  });
+}
+document.getElementById('eng-list').innerHTML=engHtml;
+
+const PROD=[
+ ['Digital Multimeter 万用表',"Our digital multimeter measures AC/DC voltage, current, resistance, continuity and diode. It features a large backlit LCD, data hold, NCV and auto power-off. True RMS models are available for accurate measurement. CE/FCC/RoHS certified, ideal for electricians and maintenance.","我们的数字万用表可测交直流电压、电流、电阻、通断和二极管。带大屏背光、数据保持、NCV非接触测电、自动关机，有真有效值款测得更准。CE/FCC/RoHS认证，适合电工和维修。"],
+ ['Voltage Tester Pen 测电笔',"Our voltage tester pen detects AC voltage from 12V to 1000V with sound and light alarm. It has NCV non-contact detection, LCD display, flashlight and breakpoint location. Compact and safe, a must-have tool for electricians.","我们的测电笔可测12V-1000V交流电压，声光报警，NCV非接触感应、液晶屏、手电筒和断点定位。小巧安全，电工必备。"],
+ ['Clamp Meter 钳形表',"Our clamp meter measures AC/DC current up to 600A without breaking the circuit, plus voltage, resistance, capacitance, frequency and temperature. True RMS, NCV and data hold included. Ideal for electrical maintenance and HVAC.","我们的钳形表不断线可测600A交直流电流，还能测电压、电阻、电容、频率、温度。真有效值、NCV、数据保持，适合电气维修和暖通。"]
+];
+document.getElementById('prod-intro').innerHTML=PROD.map(p=>'<div class="card"><h4>'+p[0]+'</h4><div style="font-size:14px;color:var(--blue-dd);margin-bottom:6px">'+p[1]+'</div><div class="meta">'+p[2]+'</div><button class="copybtn" style="margin-top:8px" data-c="'+p[1].replace(/"/g,'&quot;')+'">复制英文</button></div>').join('');
+
+/* ---------- 跟单SOP ---------- */
+const SOP=[
+ ['接收询盘','Inquiry','收到客户询价，判断客户类型（进口商/批发商/零售/终端）、需求、采购量。','询盘邮件 / 客户背景调查','先研究客户再回复；24h内必须回；问清市场/月量/终端客户。'],
+ ['报价','Quotation','按客户询价做正式报价单：型号、单价(EXW/FOB)、MOQ、交期、付款方式、有效期。','报价单 Quotation / 形式发票','先目录后报价；价格留谈判空间；不确定的标POA。'],
+ ['送样','Sample','客户要样品测试。确认样品费、运费、快递账号(DHL/FedEx)，寄样并跟踪。','样品单 / 快递单','样品可收费或免费(大单退)；寄样后主动问测试结果。'],
+ ['订单确认','PI (Proforma Invoice)','客户确认下单，做形式发票确认：品名、数量、单价、总金额、交期、付款方式、唛头。','PI 形式发票 / 购销合同','PI条款要和客户逐条确认；签字回传才生效。'],
+ ['收订金','Deposit','按PI收订金（一般30%），确认到账后安排生产。','水单 / 银行到账通知','没收到订金不开工；核对付款人名与合同一致。'],
+ ['安排生产','Production','下单给工厂排产，确认物料、交期、包装、Logo定制。','生产单 / 采购单','写清规格和定制要求；跟工厂确认交期留缓冲。'],
+ ['验货','QC / Inspection','生产完成验货：数量、外观、功能、包装。拍验货照片视频给客户。','验货报告 QC Report','按AQL标准抽检；不合格立即返工；验货通过再收尾款。'],
+ ['收尾款出货','Balance & Shipment','收尾款，订舱报关出货。提供提单B/L、装箱单、发票给客户。','提单B/L / 装箱单P/L / 商业发票CI','尾款到账再放单；海运/空运条款(FOB/CIF)要清楚。'],
+ ['售后跟进','After-sales','跟踪货物到港、客户收货反馈，处理质量投诉，促返单。','售后记录','主动问到货情况；问题快速响应；维护好等返单。']
+];
+document.getElementById('sop-list').innerHTML=SOP.map((s,i)=>{
+  const id='sop'+i;
+  return '<div class="sop'+(i===0?' open':'')+'"><div class="sop-h"><span><span class="num">'+(i+1)+'</span>'+s[0]+'<span class="tag">'+s[1]+'</span></span><label class="chk" style="border:none;margin:0;padding:0;background:none" onclick="event.stopPropagation()"><input type="checkbox" data-k="'+id+'" data-g="sop" '+(S.sop[id]?'checked':'')+'></label></div><div class="sop-b"><table>'+
+   '<tr><td>做什么</td><td>'+s[2]+'</td></tr>'+
+   '<tr><td>关键单据</td><td>'+s[3]+'</td></tr>'+
+   '<tr><td>注意点</td><td>'+s[4]+'</td></tr></table></div></div>';
+}).join('');
+
+/* ---------- 面试翻身 ---------- */
+const INTERVIEW=[
+ ['打字慢（59字/分）','短期最能速成的技能。每天20分钟练4周稳上100。面试话术：“我打字速度正在系统训练，目前已从59提到XX，预计两周内稳定在100以上。而且我用AI工具辅助回复客户，实际效率比单纯打字快的人更高。”','用本页打字器，每天打卡，把速度曲线截图存证。'],
+ ['英语不够好','B2B外贸90%是书面英语，把产品话术+常用50句背熟就能开工。面试话术：“我口语一般，但书面开发信和报价很扎实——我用AI工具+自己整理的话术库，回复客户又快又专业。这是我写过的开发信和做的英文独立站。”','背熟Tab2话术库+3段产品介绍，能默写。'],
+ ['没跟单经验','跟单是流程活不是天赋。把9步SOP吃透，面试能讲出完整流程就赢过一堆人。面试话术：“我虽然没有独立跟过单，但我系统学过外贸全流程（询盘→报价→PI→订金→生产→验货→出货→售后），能立刻上手，而且我擅长用工具把流程做得更规范。”','把Tab3的9步SOP背到能脱稿讲，每步单据说得出。']
+];
+document.getElementById('interview-list').innerHTML=INTERVIEW.map(x=>'<div class="card"><h4>⚠️ '+x[0]+'</h4><div style="font-size:14px;margin:6px 0">'+x[1]+'</div><div class="meta">✅ 行动：'+x[2]+'</div></div>').join('');
+
+/* ---------- 打卡日历 ---------- */
+let calHtml='';
+for(let i=1;i<=30;i++){
+  calHtml+='<div class="day'+(S.days[i]?' on':'')+'" data-d="'+i+'"><span class="d">'+i+'</span><span class="mk">'+(S.days[i]?'✓done':'day'+i)+'</span></div>';
+}
+document.getElementById('cal').innerHTML=calHtml;
+document.getElementById('cal').addEventListener('click',e=>{
+  const d=e.target.closest('.day'); if(!d)return;
+  const k=d.dataset.d; S.days[k]=!S.days[k]; if(!S.days[k])delete S.days[k];
+  d.classList.toggle('on'); d.querySelector('.mk').textContent=S.days[k]?'✓done':'day'+k;
+  save(); refresh();
+});
+
+/* ---------- 勾选统一处理 ---------- */
+document.body.addEventListener('change',e=>{
+  const cb=e.target; if(cb.type!=='checkbox')return;
+  const k=cb.dataset.k, g=cb.dataset.g;
+  S[g][k]=cb.checked; if(!cb.checked)delete S[g][k];
+  cb.closest('.chk').classList.toggle('done',cb.checked);
+  save(); refresh();
+});
+/* 复制 */
+document.body.addEventListener('click',e=>{
+  const b=e.target.closest('.copybtn'); if(!b)return;
+  navigator.clipboard.writeText(b.dataset.c).then(()=>{const o=b.textContent;b.textContent='已复制✓';setTimeout(()=>b.textContent=o,1200);});
+});
+/* Tab切换 */
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active'); document.getElementById(t.dataset.p).classList.add('active');
+}));
+/* SOP折叠 */
+document.querySelectorAll('.sop-h').forEach(h=>h.addEventListener('click',()=>h.parentElement.classList.toggle('open')));
+
+/* ---------- 刷新进度 ---------- */
+function refresh(){
+  const days=Object.keys(S.days).length;
+  document.getElementById('k-days').textContent=days;
+  // 打字进度：59→100，用best
+  const tp=Math.min(100,Math.max(0,Math.round((S.best-59)/(100-59)*100)));
+  document.getElementById('pl-t').textContent=tp+'%'; document.getElementById('pf-t').style.width=tp+'%';
+  // 英语
+  const engDone=Object.keys(S.eng).length;
+  document.getElementById('k-eng').textContent=engDone; document.getElementById('k-eng-total').textContent=engTotal;
+  const ep=engTotal?Math.round(engDone/engTotal*100):0;
+  document.getElementById('pl-e').textContent=ep+'%'; document.getElementById('pf-e').style.width=ep+'%';
+  // sop
+  const sopDone=Object.keys(S.sop).length;
+  document.getElementById('k-sop').textContent=sopDone;
+  const sp=Math.round(sopDone/9*100);
+  document.getElementById('pl-s').textContent=sp+'%'; document.getElementById('pf-s').style.width=sp+'%';
+  document.getElementById('st-best').textContent=S.best;
+  document.getElementById('k-typing').textContent=S.best;
+}
+renderTarget(); refresh();
+</script>
+</body>
+</html>
