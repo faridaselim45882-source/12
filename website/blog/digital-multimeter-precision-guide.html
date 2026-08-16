@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding Digital Multimeter Accuracy: ±0.5% vs ±1% — Does It Matter? | CHINYOO</title>
+  <meta name="description" content="Digital multimeter accuracy explained: ±0.5% vs ±1% what it means in practice, display counts and resolution, why more counts ≠ more accuracy, and application-specific requirements.">
+  <meta name="keywords" content="digital multimeter accuracy, multimeter precision, 1999 counts, 4000 counts, 19999 counts, multimeter spec sheet, DMM accuracy, ±0.5% multimeter, multimeter resolution">
+  <meta name="author" content="CHINYOO Engineering Team">
+  <meta name="published" content="2026-07-09">
+  <link rel="canonical" href="https://www.chinyoo.com/blog/digital-multimeter-precision-guide">
+  <style>
+    :root {
+      --primary: #1B5FA8;
+      --primary-dark: #144080;
+      --accent: #FF6B00;
+      --accent-light: #FFF0E6;
+      --bg: #F7F8FC;
+      --white: #FFFFFF;
+      --text: #1A1A2E;
+      --text-light: #5A6070;
+      --border: #E2E6F0;
+      --success: #27AE60;
+      --warning: #F39C12;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif; color: var(--text); background: var(--bg); line-height: 1.7; }
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── NAV ── */
+    nav { background: var(--white); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .nav-logo { font-size: 1.4rem; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 0.9rem; font-weight: 500; color: var(--text); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--primary); text-decoration: none; }
+    .nav-cta { background: var(--accent); color: #fff !important; padding: 8px 18px; border-radius: 6px; font-weight: 600; transition: background 0.2s !important; }
+    .nav-cta:hover { background: #E05C00 !important; text-decoration: none !important; }
+
+    /* ── HERO ── */
+    .page-hero { background: linear-gradient(135deg, #0D3A6E 0%, #1B5FA8 60%, #2980D9 100%); color: #fff; padding: 80px 24px 60px; }
+    .hero-inner { max-width: 800px; margin: 0 auto; }
+    .breadcrumb { font-size: 0.82rem; opacity: 0.75; margin-bottom: 16px; }
+    .breadcrumb a { color: #fff; }
+    .hero-cat { display: inline-block; background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.35); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
+    .hero-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; line-height: 1.2; margin-bottom: 16px; }
+    .hero-meta { display: flex; gap: 20px; align-items: center; font-size: 0.85rem; opacity: 0.85; flex-wrap: wrap; }
+    .hero-meta span { display: flex; align-items: center; gap: 5px; }
+
+    /* ── ARTICLE BODY ── */
+    .article-wrap { max-width: 800px; margin: 0 auto; padding: 48px 24px 80px; }
+    .article-body h2 { font-size: 1.55rem; color: var(--primary); margin: 2.2rem 0 0.8rem; border-left: 4px solid var(--accent); padding-left: 14px; }
+    .article-body h3 { font-size: 1.2rem; color: var(--text); margin: 1.6rem 0 0.6rem; font-weight: 700; }
+    .article-body p { margin-bottom: 1.1rem; font-size: 1.02rem; color: #3A3A4A; }
+    .article-body ul, .article-body ol { margin: 0.8rem 0 1.1rem 1.4rem; }
+    .article-body li { margin-bottom: 0.4rem; font-size: 1.02rem; color: #3A3A4A; }
+    .article-body strong { color: var(--text); }
+
+    .callout { background: var(--accent-light); border-left: 4px solid var(--accent); padding: 18px 20px; border-radius: 0 8px 8px 0; margin: 1.6rem 0; }
+    .callout p { color: #7A3800 !important; font-size: 0.97rem !important; margin: 0 !important; }
+    .callout strong { color: #7A3800 !important; }
+
+    .callout-blue { background: #EBF3FF; border-left: 4px solid var(--primary); padding: 18px 20px; border-radius: 0 8px 8px 0; margin: 1.6rem 0; }
+    .callout-blue p { color: #0D2E5A !important; font-size: 0.97rem !important; margin: 0 !important; }
+    .callout-blue strong { color: #0D2E5A !important; }
+
+    .data-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.94rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-radius: 8px; overflow: hidden; }
+    .data-table th { background: var(--primary); color: #fff; padding: 12px 16px; text-align: left; font-weight: 700; }
+    .data-table td { padding: 10px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .data-table tr:nth-child(even) td { background: #F0F4FB; }
+    .data-table tr:last-child td { border-bottom: none; }
+
+    .example-box { background: var(--white); border: 2px solid var(--border); border-radius: 12px; padding: 24px; margin: 1.5rem 0; }
+    .example-box h4 { color: var(--primary); margin-bottom: 12px; font-size: 1rem; }
+    .example-box table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .example-box th { background: #F0F4FB; padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); font-weight: 700; }
+    .example-box td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+    .example-box tr:last-child td { border-bottom: none; }
+
+    .badge-row { display: flex; gap: 12px; flex-wrap: wrap; margin: 1rem 0; }
+    .badge { display: inline-block; background: var(--primary); color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; }
+    .badge.warning { background: var(--warning); }
+    .badge.success { background: var(--success); }
+
+    /* ── FAQ ── */
+    .faq-section { background: #EEF4FF; border-radius: 12px; padding: 32px; margin: 2rem 0; }
+    .faq-item { background: var(--white); border-radius: 8px; padding: 18px 20px; margin-bottom: 12px; border: 1px solid var(--border); }
+    .faq-item:last-child { margin-bottom: 0; }
+    .faq-q { font-weight: 700; color: var(--primary); margin-bottom: 8px; font-size: 1rem; display: flex; align-items: flex-start; gap: 8px; }
+    .faq-q::before { content: "Q"; background: var(--primary); color: #fff; width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; flex-shrink: 0; margin-top: 1px; }
+    .faq-a { color: var(--text-light); font-size: 0.95rem; padding-left: 30px; line-height: 1.65; }
+
+    /* ── AUTHOR CARD ── */
+    .author-card { display: flex; align-items: center; gap: 16px; background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin: 2rem 0; }
+    .author-avatar { width: 56px; height: 56px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 1.3rem; flex-shrink: 0; }
+    .author-info h4 { font-size: 1rem; color: var(--text); margin-bottom: 2px; }
+    .author-info p { font-size: 0.85rem; color: var(--text-light); margin: 0; }
+
+    /* ── CTA ── */
+    .article-cta { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; border-radius: 12px; padding: 32px; text-align: center; margin: 2rem 0; }
+    .article-cta h3 { font-size: 1.3rem; margin-bottom: 8px; color: #fff; }
+    .article-cta p { opacity: 0.85; margin-bottom: 16px; font-size: 0.97rem; }
+    .cta-btn { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; transition: background 0.2s; }
+    .cta-btn:hover { background: #E05C00; text-decoration: none; }
+
+    /* ── RELATED PRODUCTS ── */
+    .related-products { margin: 2rem 0; }
+    .related-products h3 { font-size: 1.1rem; color: var(--text); margin-bottom: 14px; }
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+    .product-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; transition: box-shadow 0.2s; }
+    .product-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+    .product-icon { font-size: 2.2rem; margin-bottom: 8px; }
+    .product-name { font-weight: 700; font-size: 0.9rem; color: var(--text); margin-bottom: 4px; }
+    .product-spec { font-size: 0.78rem; color: var(--text-light); margin-bottom: 10px; }
+    .product-link { color: var(--primary); font-weight: 600; font-size: 0.85rem; }
+
+    /* ── FOOTER ── */
+    footer { background: #0D1B2A; color: rgba(255,255,255,0.65); padding: 48px 24px 24px; font-size: 0.88rem; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; }
+    .footer-brand p { margin-top: 10px; line-height: 1.6; font-size: 0.85rem; }
+    .footer-col h4 { color: #fff; font-size: 0.9rem; margin-bottom: 12px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 7px; }
+    .footer-col a { color: rgba(255,255,255,0.6); transition: color 0.2s; }
+    .footer-col a:hover { color: #fff; text-decoration: none; }
+    .footer-bottom { max-width: 1200px; margin: 32px auto 0; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 0.82rem; }
+
+    /* ── WHATSAPP FLOAT ── */
+    .wa-float { position: fixed; bottom: 24px; right: 24px; z-index: 999; background: #25D366; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(37,211,102,0.45); cursor: pointer; transition: transform 0.2s; }
+    .wa-float:hover { transform: scale(1.08); }
+    .wa-float svg { width: 28px; height: 28px; fill: #fff; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .footer-inner { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">CHINYOO<span>.</span></div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="../products">Products</a></li>
+      <li><a href="../blog">Blog</a></li>
+      <li><a href="../support">Support</a></li>
+      <li><a href="../contact">Contact</a></li>
+      <li><a href="../products" class="nav-cta">Shop Now</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="hero-inner">
+    <div class="breadcrumb"><a href="/">Home</a> / <a href="../blog">Blog</a> / Technical</div>
+    <div class="hero-cat">Technical</div>
+    <h1 class="hero-title">Understanding Digital Multimeter Accuracy: ±0.5% vs ±1% — Does It Matter?</h1>
+    <div class="hero-meta">
+      <span>&#128100; CHINYOO Engineering Team</span>
+      <span>&#128197; July 9, 2026</span>
+      <span>&#128337; 13 min read</span>
+      <span>&#128214; Technical Guide</span>
+    </div>
+  </div>
+</div>
+
+<!-- ARTICLE -->
+<div class="article-wrap">
+  <article class="article-body">
+
+    <h2>Why "±0.5% Accuracy" Doesn't Mean What You Think</h2>
+    <p>When comparing digital multimeters, you'll see accuracy specifications like <strong>±0.5% of reading + 2 digits</strong> or <strong>±1% of reading + 5 digits</strong> printed on the box and listed in datasheets. These figures are the closest thing to a universal quality marker for a DMM — a higher accuracy number supposedly means a better, more expensive meter.</p>
+    <p>But what does <strong>"±0.5% of reading"</strong> actually mean in practice? Is it worth paying twice as much for a ±0.5% meter over a ±1% meter? And why do some 6000-count meters outperform 19999-count meters on accuracy — even though the higher-count meter looks more impressive on paper?</p>
+    <p>This guide demystifies multimeter accuracy specifications so you can make an informed buying decision and use your meter with correct expectations of its real-world performance.</p>
+
+    <h2>What ±0.5% or ±1% Actually Means: The Full Specification Formula</h2>
+    <p>Multimeter accuracy is never expressed as a single percentage. It is always a composite of two terms:</p>
+
+    <div class="callout-blue">
+      <p><strong>Full Accuracy Formula: ±(% of reading) + ±(number of least significant digits)</strong></p>
+      <p style="margin-top:8px;">Example: A meter rated ±0.5% + 2 digits means <strong>both</strong> terms apply — you add them, not choose between them.</p>
+    </div>
+
+    <p>The <strong>% of reading</strong> term accounts for proportional errors (gain errors in the A/D converter, resistor tolerance). The <strong>digits term</strong> (also called <strong>count error</strong> or <strong>quantization error</strong>) accounts for the inherent rounding that occurs when a continuous analog voltage is converted to a discrete digital number. The least significant digit (LSD) represents the smallest increment the display can show on the active range.</p>
+
+    <div class="example-box">
+      <h4>Worked Example 1: ±0.5% + 2 Digits Meter Measuring 12.00 V</h4>
+      <table>
+        <thead>
+          <tr><th>Term</th><th>Calculation</th><th>Error Contribution</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>% of reading (0.5%)</td><td>12.00 V × 0.005</td><td>±0.060 V</td></tr>
+          <tr><td>Digits (±2 LSD)</td><td>2 × 0.01 V (on 20 V range)</td><td>±0.02 V</td></tr>
+          <tr><td><strong>Total worst-case error</strong></td><td>0.060 + 0.020</td><td><strong>±0.080 V</strong></td></tr>
+          <tr><td>Actual reading band</td><td>12.00 V ± 0.080 V</td><td><strong>11.920 V to 12.080 V</strong></td></tr>
+          <tr><td>Relative accuracy</td><td>0.080 / 12.00 × 100%</td><td><strong>±0.67%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="example-box">
+      <h4>Worked Example 2: ±1% + 5 Digits Meter Measuring 12.00 V (Same Meter, Different Spec)</h4>
+      <table>
+        <thead>
+          <tr><th>Term</th><th>Calculation</th><th>Error Contribution</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>% of reading (1%)</td><td>12.00 V × 0.01</td><td>±0.120 V</td></tr>
+          <tr><td>Digits (±5 LSD)</td><td>5 × 0.01 V (on 20 V range)</td><td>±0.05 V</td></tr>
+          <tr><td><strong>Total worst-case error</strong></td><td>0.120 + 0.050</td><td><strong>±0.170 V</strong></td></tr>
+          <tr><td>Actual reading band</td><td>12.00 V ± 0.170 V</td><td><strong>11.830 V to 12.170 V</strong></td></tr>
+          <tr><td>Relative accuracy</td><td>0.170 / 12.00 × 100%</td><td><strong>±1.42%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <p><strong>&#9888; Key insight:</strong> The digits term becomes <strong>more significant</strong> when measuring small values on high ranges, and <strong>less significant</strong> when measuring large values. At 120 V AC, the ±2 digit error on a 600 V range (resolution = 0.1 V) contributes only ±0.2 V to a 120 V reading — a negligible 0.17%. But at 0.12 V on the same range, the same ±0.2 V error becomes a catastrophic ±167% error.</p>
+    </div>
+
+    <h2>Display Counts and Resolution Explained</h2>
+    <p>The term <strong>"count"</strong> (or display count) refers to the maximum number that a DMM's display can show before the next higher range is needed. It is the primary determinant of the meter's <strong>resolution</strong> — the smallest change in the measured quantity that the meter can detect and display.</p>
+
+    <h3>The Three Common Count Classes</h3>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>Count Class</th><th>Max Display</th><th>Resolution (on 20V range)</th><th>Typical Use Case</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>2000 counts</strong></td>
+          <td>1999</td>
+          <td>0.01 V (10 mV)</td>
+          <td>Basic home/hobby use, outlets, batteries. Lowest cost.</td>
+        </tr>
+        <tr>
+          <td><strong>4000 counts</strong></td>
+          <td>3999</td>
+          <td>0.001 V (1 mV) on 4 V range</td>
+          <td>Entry-level professional. Better low-voltage resolution than 2000-count.</td>
+        </tr>
+        <tr>
+          <td><strong>6000 counts</strong></td>
+          <td>5999</td>
+          <td>0.001 V (1 mV) on 6 V range</td>
+          <td>Professional standard. Excellent for automotive, HVAC, general trade.</td>
+        </tr>
+        <tr>
+          <td><strong>19999 counts</strong></td>
+          <td>19999</td>
+          <td>0.001 V (1 mV) on 20 V range</td>
+          <td>Mid-high end. True 4-digit display (not a half-digit as below).</td>
+        </tr>
+        <tr>
+          <td><strong>40000 / 50000 counts</strong></td>
+          <td>39999 / 49999</td>
+          <td>0.1 mV on low voltage ranges</td>
+          <td>Precision / lab-grade portable meters.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>What Is a "Half-Digit"?</h3>
+    <p>You may see a meter described as a "<strong>3½-digit</strong>" or "<strong>3½ digit</strong>" meter. The "½" refers to the most significant digit, which can only display 0 or 1 (it cannot display 2–9). A 3½-digit meter with a maximum of 1999 is therefore a <strong>2000-count</strong> meter. Similarly, a 3¾-digit meter (max 3999) is a <strong>4000-count</strong> meter. The terminology is largely historical but still appears in datasheets.</p>
+
+    <h2>Why More Counts Does Not Mean More Accuracy</h2>
+    <p>This is the most common misconception in multimeter purchasing. A 19999-count meter can display more digits than a 6000-count meter, but that does not automatically make it more accurate. Here is why:</p>
+
+    <h3>1. Accuracy and Resolution Are Different Things</h3>
+    <p><strong>Resolution</strong> is how fine the meter's display increments are. <strong>Accuracy</strong> is how close those displayed values are to the true value. A meter can display 19,999 counts (resolution to 0.0001 V on the 20 V range) but still have an accuracy of only ±2% — meaning the displayed 1.0000 V could actually be anywhere from 0.9800 V to 1.0200 V. The extra digits beyond the ±2% uncertainty are simply displaying noise, not information.</p>
+
+    <div class="callout-blue">
+      <p><strong>Rule of thumb:</strong> Your meter's accuracy must be at least <strong>10× better</strong> than the tolerance of the component or circuit you're testing. If you're checking a 5% tolerance resistor, a ±0.5% meter is more than adequate. A ±2% meter is already pushing it for 1% tolerance components.</p>
+    </div>
+
+    <h3>2. A/D Converter Linearity Error</h3>
+    <p>Even if the A/D converter is perfectly calibrated at one voltage, it may have <strong>integral non-linearity (INL)</strong> errors across the range — meaning its accuracy degrades in the middle of the range even if it's accurate at the endpoints. High-count meters from reputable manufacturers are designed to minimize INL through tighter calibration and better component matching. A cheap high-count meter may have excellent resolution but poor linearity.</p>
+
+    <h3>3. Temperature Coefficient</h3>
+    <p>The accuracy specification is only valid at the meter's <strong>reference temperature</strong> (typically 23 ±5°C or 18–28°C). As temperature changes, the meter's accuracy drifts. Precision meters specify a <strong>temperature coefficient</strong> (e.g., ±0.05% per °C outside the reference range). A budget 19999-count meter may have a large temperature coefficient that destroys its theoretical precision in field conditions.</p>
+
+    <h2>Application-Specific Accuracy Requirements</h2>
+    <p>The required accuracy depends entirely on what you're measuring and what decisions you need to make from the reading. Here is a practical guide:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>Application</th><th>Typical Measurement Range</th><th>Required Accuracy</th><th>Recommended Meter Class</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Residential/commercial AC mains</strong></td>
+          <td>110–240 V AC</td>
+          <td>±2–3% is sufficient</td>
+          <td>2000-count, CAT III DMM</td>
+        </tr>
+        <tr>
+          <td><strong>Automotive diagnostics</strong></td>
+          <td>0.01–15 V DC (sensors, battery)</td>
+          <td>±0.5–1% required</td>
+          <td>6000-count True RMS, CAT II 600V</td>
+        </tr>
+        <tr>
+          <td><strong>HVAC/RAC systems</strong></td>
+          <td>0.1–30 V AC/DC, resistance</td>
+          <td>±0.5–1% for capacitor/compressor testing</td>
+          <td>6000-count True RMS, CAT III</td>
+        </tr>
+        <tr>
+          <td><strong>Solar PV / battery systems</strong></td>
+          <td>0–600 V DC (solar arrays)</td>
+          <td>±0.5% or better for efficiency calculations</td>
+          <td>True RMS, CAT III/IV DC, ±0.5%</td>
+        </tr>
+        <tr>
+          <td><strong>Electronic circuit debugging</strong></td>
+          <td>0.001–30 V DC, µA current</td>
+          <td>±0.5% or better for component verification</td>
+          <td>6000-count, low µA range</td>
+        </tr>
+        <tr>
+          <td><strong>Calibration verification</strong></td>
+          <td>Any</td>
+          <td>±0.1% or better (traceable standard)</td>
+          <td>Lab-grade bench DMM, ±0.02%</td>
+        </tr>
+        <tr>
+          <td><strong>Motor drive / VFD testing</strong></td>
+          <td>Non-sinusoidal AC up to 1 kHz</td>
+          <td>±1–2% True RMS</td>
+          <td>True RMS, low-pass filter mode</td>
+        </tr>
+        <tr>
+          <td><strong>Continuity / diode testing</strong></td>
+          <td>0–2 V diode forward drop</td>
+          <td>±0.05 V resolution</td>
+          <td>Any meter with diode test function</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Common Spec Sheet Abbreviations Explained</h2>
+    <p>When reading a DMM datasheet, you'll encounter a number of abbreviations that directly affect the accuracy you can expect in practice:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>Abbreviation</th><th>Full Term</th><th>What It Means for You</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>RDG</strong></td><td>Reading</td><td>The % accuracy applies to the displayed value, not the full scale. Specified as ±0.5% RDG means ±0.5% of whatever the meter currently shows.</td></tr>
+        <tr><td><strong>FS</strong></td><td>Full Scale</td><td>Older meters may specify ±% FS, meaning ±% of the <em>maximum value of the current range</em>, regardless of the reading. This is less favorable for the user.</td></tr>
+        <tr><td><strong>rdg</strong></td><td>Reading (same as RDG)</td><td>Lowercase sometimes used interchangeably with RDG.</td></tr>
+        <tr><td><strong>dgt / dgts</strong></td><td>Digits / Count</td><td>The digit error — e.g., ±2 dgt means ±2 least significant digits of the active range.</td></tr>
+        <tr><td><strong>LSD</strong></td><td>Least Significant Digit</td><td>The smallest increment displayed on the active range. A 2000-count meter on the 20 V range has LSD = 0.01 V.</td></tr>
+        <tr><td><strong>True RMS</strong></td><td>True Root Mean Square</td><td>Method of AC measurement that gives correct readings for any waveform shape, not just pure sine waves.</td></tr>
+        <tr><td><strong>Avg RMS</strong></td><td>Average Sensing RMS</td><td>Less expensive AC measurement method that only reads correctly for pure sine waves. Reads low for sharp-edged waveforms.</td></tr>
+        <tr><td><strong>TC</strong></td><td>Temperature Coefficient</td><td>Additional accuracy error per °C outside the meter's reference temperature range (typically 18–28°C).</td></tr>
+        <tr><td><strong>CR</strong></td><td>Count Resolution</td><td>The display count — e.g., 6000 CR means 6000 counts.</td></tr>
+        <tr><td><strong>NPLC</strong></td><td>Number of Power Line Cycles</td><td>Averaging time for dual-slope A/D converters. Higher NPLC = slower but more accurate readings. 10 NPLC is standard for precision measurement.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Conclusion: Matching Accuracy to Your Real Needs</h2>
+    <p>For the vast majority of field and bench work — testing outlets, checking batteries, troubleshooting HVAC circuits, verifying automotive sensors — a <strong>6000-count ±0.5% True RMS digital multimeter</strong> delivers more than enough precision. The extra resolution of a 19999-count meter rarely translates into practical benefits unless you're working with low-level DC signals, precision electronics, or making calibration-verification measurements.</p>
+    <p>When choosing a meter, prioritize: <strong>(1) the correct CAT rating</strong> for your work environment, <strong>(2) True RMS</strong> if you work with non-linear loads, <strong>(3) an adequate count class</strong> for your lowest expected measurement, and only <strong>(4) tighter ±% accuracy</strong> if your application genuinely requires it.</p>
+    <p>Remember: a meter's accuracy specification is a guarantee of worst-case performance under reference conditions. Real-world accuracy may be better — but it will never be worse than the spec sheet claims. Know your meter's limits, and you'll never be surprised by a reading.</p>
+
+    <!-- FAQ -->
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-section">
+      <div class="faq-item">
+        <div class="faq-q">Is a ±0.5% DMM worth the extra cost over a ±1% DMM?</div>
+        <div class="faq-a">For most professional applications, <strong>yes</strong>. The ±0.5% meter provides a meaningful accuracy improvement — about 2× better in many measurement scenarios. However, if your work only involves checking mains voltage at outlets (220–240 V), the ±1% meter is adequate: a ±1% error on 240 V is ±2.4 V, which is imperceptible for most electrical work. The ±0.5% advantage becomes critical when measuring low voltages (under 10 V), working with precision components, or calculating power/energy efficiency where small percentage errors compound.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What's the difference between 6000 counts and 19999 counts? Is more always better?</div>
+        <div class="faq-a">The count determines <strong>display resolution</strong>, not <strong>accuracy</strong>. A 19999-count meter on a 20 V range shows 1 mV resolution (0.001 V), while a 6000-count meter on the same range shows 0.01 V (10 mV). However, if the 19999-count meter's accuracy specification is ±2% and the 6000-count meter's is ±0.5%, the 6000-count meter will actually produce more reliable readings — its extra digits are meaningful. Always read the accuracy spec before being impressed by a high count number.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What does "+ 2 digits" mean in a multimeter accuracy spec?</div>
+        <div class="faq-a">The "digits" term (also called <strong>count error</strong> or <strong>LSD error</strong>) is an additional fixed error that accounts for the rounding and quantization that occurs when the A/D converter converts the analog signal to a digital number. If a meter's spec is ±0.5% + 2 digits and you're on the 20 V range (resolution = 0.01 V), the digit error contributes ±0.02 V on top of the ±0.5% proportional error. This term is most significant when measuring small values — at 0.5 V, the ±0.02 V digit error becomes a 4% potential error, swamping the ±0.5% RDG specification.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Why do meter's accuracy specs differ between DC and AC?</div>
+        <div class="faq-a">DC voltage measurement uses a direct A/D conversion path with no waveform processing, so DC accuracy tends to be better (e.g., ±0.5% DC). AC measurement requires either average-sensing (cheaper, only accurate for sine waves) or True RMS computation (more complex, slightly wider tolerance, e.g., ±1.5% AC True RMS). Additionally, AC accuracy is measured with a <strong>pure 50/60 Hz sine wave</strong> at the meter's reference frequency — readings at other frequencies (e.g., from a VFD at 400 Hz) may have additional frequency response errors not captured in the basic AC accuracy spec.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How often should a digital multimeter be professionally calibrated?</div>
+        <div class="faq-a">For <strong>trade and professional use</strong>, annual calibration is recommended by most standards bodies (ISO, NIST guidelines). For <strong>quality control and laboratory use</strong>, calibration intervals of 6 months or quarterly are common. For <strong>hobbyist and occasional professional use</strong>, verify your meter's accuracy against a known reference source (calibrated voltage standard, certified reference meter) every 1–2 years. Many ISO 9001 and IEC 61010-based quality systems require documented calibration records with traceable standards — check your industry requirements.</div>
+      </div>
+    </div>
+
+    <!-- FAQ JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type": "Question", "name": "Is a ±0.5% DMM worth the extra cost over a ±1% DMM?", "acceptedAnswer": {"@type": "Answer", "text": "For most professional applications, yes. The ±0.5% meter provides a meaningful accuracy improvement. However, if your work only involves checking mains voltage at outlets (220–240 V), the ±1% meter is adequate — a ±1% error on 240 V is ±2.4 V, which is imperceptible for most electrical work. The ±0.5% advantage becomes critical when measuring low voltages (under 10 V), working with precision components, or calculating power/energy efficiency where small percentage errors compound."}},
+        {"@type": "Question", "name": "What's the difference between 6000 counts and 19999 counts? Is more always better?", "acceptedAnswer": {"@type": "Answer", "text": "The count determines display resolution, not accuracy. A 19999-count meter on a 20 V range shows 1 mV resolution, while a 6000-count meter on the same range shows 10 mV. However, if the 19999-count meter's accuracy specification is ±2% and the 6000-count meter's is ±0.5%, the 6000-count meter will produce more reliable readings — its extra digits are meaningful. Always read the accuracy spec before being impressed by a high count number."}},
+        {"@type": "Question", "name": "What does '+ 2 digits' mean in a multimeter accuracy spec?", "acceptedAnswer": {"@type": "Answer", "text": "The digits term (count error or LSD error) is an additional fixed error that accounts for rounding and quantization in the A/D conversion. If a meter's spec is ±0.5% + 2 digits and you're on the 20 V range (resolution = 0.01 V), the digit error contributes ±0.02 V on top of the ±0.5% proportional error. This term is most significant when measuring small values — at 0.5 V, the ±0.02 V digit error becomes a 4% potential error, swamping the ±0.5% RDG specification."}},
+        {"@type": "Question", "name": "Why do meter's accuracy specs differ between DC and AC?", "acceptedAnswer": {"@type": "Answer", "text": "DC voltage measurement uses a direct A/D conversion path with no waveform processing, so DC accuracy tends to be better (e.g., ±0.5% DC). AC measurement requires either average-sensing (only accurate for sine waves) or True RMS computation (more complex, slightly wider tolerance, e.g., ±1.5% AC True RMS). AC accuracy is measured with a pure 50/60 Hz sine wave — readings at other frequencies may have additional frequency response errors not captured in the basic AC accuracy spec."}},
+        {"@type": "Question", "name": "How often should a digital multimeter be professionally calibrated?", "acceptedAnswer": {"@type": "Answer", "text": "For trade and professional use, annual calibration is recommended by most standards bodies (ISO, NIST guidelines). For quality control and laboratory use, calibration intervals of 6 months or quarterly are common. For hobbyist and occasional professional use, verify your meter's accuracy against a known reference source every 1–2 years. Many ISO 9001 and IEC 61010-based quality systems require documented calibration records with traceable standards."}}
+      ]
+    }
+    </script>
+
+    <!-- AUTHOR -->
+    <div class="author-card">
+      <div class="author-avatar">CY</div>
+      <div class="author-info">
+        <h4>CHINYOO Engineering Team</h4>
+        <p>Technical writers and electrical engineers specializing in test & measurement instruments, safety standards, and industrial instrumentation design.</p>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="article-cta">
+      <h3>Explore CHINYOO Precision Digital Multimeters</h3>
+      <p>6000-count True RMS DMMs with ±0.5% DC accuracy. CAT III / CAT IV certified. Built for professionals who need real accuracy, not just impressive digits.</p>
+      <a href="../products" class="cta-btn">View All DMMs &#8594;</a>
+    </div>
+
+    <!-- RELATED PRODUCTS -->
+    <div class="related-products">
+      <h3>&#128722; Related Products</h3>
+      <div class="product-grid">
+        <div class="product-card">
+          <div class="product-icon">&#128200;</div>
+          <div class="product-name">DM-890 True RMS DMM</div>
+          <div class="product-spec">6000 Counts | ±0.5% DC | CAT IV 600V | True RMS</div>
+          <a href="../products/dm-890" class="product-link">View Details &#8594;</a>
+        </div>
+        <div class="product-card">
+          <div class="product-icon">&#128200;</div>
+          <div class="product-name">DM-950 Precision DMM</div>
+          <div class="product-spec">50000 Counts | ±0.05% DC | RS-232 | Low-Z Mode</div>
+          <a href="../products/dm-950" class="product-link">View Details &#8594;</a>
+        </div>
+        <div class="product-card">
+          <div class="product-icon">&#128293;</div>
+          <div class="product-name">NCV-01 Voltage Tester</div>
+          <div class="product-spec">AC 50-1000V | CAT III | LED+Buzzer Alert</div>
+          <a href="../products/ncv-01" class="product-link">View Details &#8594;</a>
+        </div>
+      </div>
+    </div>
+
+  </article>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="nav-logo" style="color:#fff;">CHINYOO<span>.</span></div>
+      <p>Professional test and measurement instruments for electricians, engineers, and technicians worldwide. Quality instruments, fair prices.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Products</h4>
+      <ul>
+        <li><a href="../products">Voltage Testers</a></li>
+        <li><a href="../products">Digital Multimeters</a></li>
+        <li><a href="../products">Clamp Meters</a></li>
+        <li><a href="../products">Installation Testers</a></li>
+        <li><a href="../products">Accessories</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="../support">FAQs</a></li>
+        <li><a href="../support/calibration">Calibration Services</a></li>
+        <li><a href="../support/warranty">Warranty</a></li>
+        <li><a href="../support/downloads">Downloads</a></li>
+        <li><a href="../contact">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="../about">About CHINYOO</a></li>
+        <li><a href="../blog">Blog</a></li>
+        <li><a href="../news">News</a></li>
+        <li><a href="../careers">Careers</a></li>
+        <li><a href="../privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2026 CHINYOO Electronics Co., Ltd. All rights reserved. | Professional Test & Measurement Instruments
+  </div>
+</footer>
+
+<!-- WhatsApp Float -->
+<a href="https://wa.me/8615000000000" target="_blank" class="wa-float" title="Chat on WhatsApp" rel="noopener">
+  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16.004 0h-.008C7.174 0 0 7.176 0 16c0 3.5 1.132 6.742 3.046 9.378L1.054 31.29l6.12-1.962A15.9 15.9 0 0 0 16.004 32C24.826 32 32 24.822 32 16S24.826 0 16.004 0zm9.296 22.588c-.376 1.06-1.742 1.928-2.846 2.17-.872.192-2.002.344-5.774-1.03-4.826-1.76-7.934-6.07-8.174-6.354-.238-.284-1.97-2.572-1.97-4.902s1.248-3.482 1.692-3.958c.444-.476.968-.594 1.288-.594.32 0 .636.002.912.016.29.016.678-.11 1.072.812.48 1.12 1.656 3.878 1.802 4.158.148.284.248.616.05.994-.2.376-.296.612-.592.938-.296.328-.624.736-.894 1.03-.296.322-.602.668-.258 1.31.346.642 1.53 2.72 3.288 4.404 2.262 2.17 4.168 2.844 4.76 3.16.592.316.94.262 1.286-.156.346-.418 1.484-1.728 1.894-2.32.41-.592.822-.494 1.386-.296.566.196 3.586 1.694 4.196 2.002.612.308.02.462-.822 1.318z"/></svg>
+</a>
+
+<script src="../main.js"></script>
+</body>
+</html>
