@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Inductive Voltage Testers Work: A Technical Guide | CHINYOO</title>
+  <meta name="description" content="Discover how inductive voltage testers work using capacitive coupling, what IC chips detect electric fields, and why non-contact voltage detection meets IEC 61243-3 standards.">
+  <meta name="keywords" content="inductive voltage tester, non-contact voltage tester, capacitive coupling, voltage detection, IEC 61243-3, CAT ratings, voltage tester IC">
+  <meta name="author" content="CHINYOO Engineering Team">
+  <meta name="published" content="2026-07-12">
+  <link rel="canonical" href="https://www.chinyoo.com/blog/induction-voltage-tester-guide">
+  <style>
+    :root {
+      --primary: #1B5FA8;
+      --primary-dark: #144080;
+      --accent: #FF6B00;
+      --accent-light: #FFF0E6;
+      --bg: #F7F8FC;
+      --white: #FFFFFF;
+      --text: #1A1A2E;
+      --text-light: #5A6070;
+      --border: #E2E6F0;
+      --success: #27AE60;
+      --warning: #F39C12;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', Arial, sans-serif; color: var(--text); background: var(--bg); line-height: 1.7; }
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── NAV ── */
+    nav { background: var(--white); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .nav-logo { font-size: 1.4rem; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 0.9rem; font-weight: 500; color: var(--text); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--primary); text-decoration: none; }
+    .nav-cta { background: var(--accent); color: #fff !important; padding: 8px 18px; border-radius: 6px; font-weight: 600; transition: background 0.2s !important; }
+    .nav-cta:hover { background: #E05C00 !important; text-decoration: none !important; }
+
+    /* ── HERO ── */
+    .page-hero { background: linear-gradient(135deg, #0D3A6E 0%, #1B5FA8 60%, #2980D9 100%); color: #fff; padding: 80px 24px 60px; }
+    .hero-inner { max-width: 800px; margin: 0 auto; }
+    .breadcrumb { font-size: 0.82rem; opacity: 0.75; margin-bottom: 16px; }
+    .breadcrumb a { color: #fff; }
+    .hero-cat { display: inline-block; background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.35); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
+    .hero-title { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; line-height: 1.2; margin-bottom: 16px; }
+    .hero-meta { display: flex; gap: 20px; align-items: center; font-size: 0.85rem; opacity: 0.85; flex-wrap: wrap; }
+    .hero-meta span { display: flex; align-items: center; gap: 5px; }
+
+    /* ── ARTICLE BODY ── */
+    .article-wrap { max-width: 800px; margin: 0 auto; padding: 48px 24px 80px; }
+    .article-body h2 { font-size: 1.55rem; color: var(--primary); margin: 2.2rem 0 0.8rem; border-left: 4px solid var(--accent); padding-left: 14px; }
+    .article-body h3 { font-size: 1.2rem; color: var(--text); margin: 1.6rem 0 0.6rem; font-weight: 700; }
+    .article-body p { margin-bottom: 1.1rem; font-size: 1.02rem; color: #3A3A4A; }
+    .article-body ul, .article-body ol { margin: 0.8rem 0 1.1rem 1.4rem; }
+    .article-body li { margin-bottom: 0.4rem; font-size: 1.02rem; color: #3A3A4A; }
+    .article-body strong { color: var(--text); }
+    .article-body code { background: #EEF2FF; color: var(--primary); padding: 2px 6px; border-radius: 4px; font-size: 0.88em; font-family: 'Courier New', monospace; }
+
+    .callout { background: var(--accent-light); border-left: 4px solid var(--accent); padding: 18px 20px; border-radius: 0 8px 8px 0; margin: 1.6rem 0; }
+    .callout p { color: #7A3800 !important; font-size: 0.97rem !important; margin: 0 !important; }
+    .callout strong { color: #7A3800 !important; }
+
+    .data-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.94rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-radius: 8px; overflow: hidden; }
+    .data-table th { background: var(--primary); color: #fff; padding: 12px 16px; text-align: left; font-weight: 700; }
+    .data-table td { padding: 10px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .data-table tr:nth-child(even) td { background: #F0F4FB; }
+    .data-table tr:last-child td { border-bottom: none; }
+
+    .step-flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 1.5rem 0; }
+    .step-item { background: var(--white); border: 2px solid var(--border); border-radius: 8px; padding: 14px 12px; text-align: center; }
+    .step-item .step-num { background: var(--primary); color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.82rem; font-weight: 700; margin: 0 auto 8px; }
+    .step-item .step-title { font-weight: 700; font-size: 0.82rem; color: var(--primary); margin-bottom: 4px; }
+    .step-item .step-desc { font-size: 0.78rem; color: var(--text-light); }
+
+    /* ── FAQ ── */
+    .faq-section { background: #EEF4FF; border-radius: 12px; padding: 32px; margin: 2rem 0; }
+    .faq-item { background: var(--white); border-radius: 8px; padding: 18px 20px; margin-bottom: 12px; border: 1px solid var(--border); }
+    .faq-item:last-child { margin-bottom: 0; }
+    .faq-q { font-weight: 700; color: var(--primary); margin-bottom: 8px; font-size: 1rem; display: flex; align-items: flex-start; gap: 8px; }
+    .faq-q::before { content: "Q"; background: var(--primary); color: #fff; width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; flex-shrink: 0; margin-top: 1px; }
+    .faq-a { color: var(--text-light); font-size: 0.95rem; padding-left: 30px; line-height: 1.65; }
+
+    /* ── AUTHOR CARD ── */
+    .author-card { display: flex; align-items: center; gap: 16px; background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin: 2rem 0; }
+    .author-avatar { width: 56px; height: 56px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 1.3rem; flex-shrink: 0; }
+    .author-info h4 { font-size: 1rem; color: var(--text); margin-bottom: 2px; }
+    .author-info p { font-size: 0.85rem; color: var(--text-light); margin: 0; }
+
+    /* ── CTA ── */
+    .article-cta { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #fff; border-radius: 12px; padding: 32px; text-align: center; margin: 2rem 0; }
+    .article-cta h3 { font-size: 1.3rem; margin-bottom: 8px; color: #fff; }
+    .article-cta p { opacity: 0.85; margin-bottom: 16px; font-size: 0.97rem; }
+    .cta-btn { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; transition: background 0.2s; }
+    .cta-btn:hover { background: #E05C00; text-decoration: none; }
+
+    /* ── RELATED PRODUCTS ── */
+    .related-products { margin: 2rem 0; }
+    .related-products h3 { font-size: 1.1rem; color: var(--text); margin-bottom: 14px; }
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+    .product-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; transition: box-shadow 0.2s; }
+    .product-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+    .product-icon { font-size: 2.2rem; margin-bottom: 8px; }
+    .product-name { font-weight: 700; font-size: 0.9rem; color: var(--text); margin-bottom: 4px; }
+    .product-spec { font-size: 0.78rem; color: var(--text-light); margin-bottom: 10px; }
+    .product-link { color: var(--primary); font-weight: 600; font-size: 0.85rem; }
+
+    /* ── FOOTER ── */
+    footer { background: #0D1B2A; color: rgba(255,255,255,0.65); padding: 48px 24px 24px; font-size: 0.88rem; }
+    .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; }
+    .footer-brand p { margin-top: 10px; line-height: 1.6; font-size: 0.85rem; }
+    .footer-col h4 { color: #fff; font-size: 0.9rem; margin-bottom: 12px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 7px; }
+    .footer-col a { color: rgba(255,255,255,0.6); transition: color 0.2s; }
+    .footer-col a:hover { color: #fff; text-decoration: none; }
+    .footer-bottom { max-width: 1200px; margin: 32px auto 0; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 0.82rem; }
+
+    /* ── WHATSAPP FLOAT ── */
+    .wa-float { position: fixed; bottom: 24px; right: 24px; z-index: 999; background: #25D366; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(37,211,102,0.45); cursor: pointer; transition: transform 0.2s; }
+    .wa-float:hover { transform: scale(1.08); }
+    .wa-float svg { width: 28px; height: 28px; fill: #fff; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .step-flow { grid-template-columns: repeat(2, 1fr); }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .footer-inner { grid-template-columns: 1fr; }
+      .step-flow { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">CHINYOO<span>.</span></div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="../products">Products</a></li>
+      <li><a href="../blog">Blog</a></li>
+      <li><a href="../support">Support</a></li>
+      <li><a href="../contact">Contact</a></li>
+      <li><a href="../products" class="nav-cta">Shop Now</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="hero-inner">
+    <div class="breadcrumb"><a href="/">Home</a> / <a href="../blog">Blog</a> / Technical</div>
+    <div class="hero-cat">Technical</div>
+    <h1 class="hero-title">How Inductive Voltage Testers Work: A Technical Guide</h1>
+    <div class="hero-meta">
+      <span>&#128100; CHINYOO Engineering Team</span>
+      <span>&#128197; July 12, 2026</span>
+      <span>&#128337; 9 min read</span>
+      <span>&#128214; Technical Guide</span>
+    </div>
+  </div>
+</div>
+
+<!-- ARTICLE -->
+<div class="article-wrap">
+  <article class="article-body">
+
+    <h2>What Is an Inductive Voltage Tester and Why Does It Matter?</h2>
+    <p>If you've ever held a voltage tester pen against a wire and watched its tip glow red without touching a single conductor, you've used an <strong>inductive voltage tester</strong> — also known as a non-contact voltage (NCV) tester or voltage detection pen. These compact tools are a first line of defense for electricians, maintenance technicians, and DIY enthusiasts who need to check whether a circuit is live before working on it.</p>
+    <p>The key difference between an inductive voltage tester and a traditional <strong>contact-type voltage tester</strong> (like a multimeter probe) is exactly what the name implies: <em>no physical contact required</em>. You don't need to strip insulation, touch bare conductors, or insert probes into a socket. You simply bring the tester close to an AC conductor — inside a wall, a cable, or a junction box — and the device tells you whether voltage is present.</p>
+    <p>But how does it actually detect voltage through plastic insulation, air gaps, and sometimes even behind drywall? The answer lies in the physics of <strong>capacitive coupling</strong> and a tiny silicon IC chip that costs less than half a US dollar.</p>
+
+    <h2>The Physics: Capacitive Coupling Explained Simply</h2>
+    <p>AC (alternating current) voltage at 50 Hz or 60 Hz doesn't just travel through wires — it creates an <strong>alternating electric field</strong> around any live conductor. This field oscillates at the same frequency as the AC mains and extends outward from the wire into the surrounding space.</p>
+    <p>An inductive voltage tester exploits this field using a principle called <strong>capacitive coupling</strong>. Think of it this way: the live conductor acts as one plate of a capacitor, the tester's sensing electrode acts as the second plate, and the insulation (plus any air gap) acts as the dielectric in between.</p>
+    <p>Capacitive coupling forms naturally whenever two conductors are separated by a non-conductive material and have an AC voltage difference between them. The magnitude of the coupling is proportional to:</p>
+    <ul>
+      <li><strong>Frequency</strong> — Higher AC frequencies couple more strongly</li>
+      <li><strong>Voltage level</strong> — Higher voltage creates a stronger electric field</li>
+      <li><strong>Proximity</strong> — The closer the sensor is to the conductor, the stronger the coupling</li>
+      <li><strong>Insulation characteristics</strong> — Thinner or lower-permittivity insulation reduces the barrier</li>
+    </ul>
+
+    <div class="callout">
+      <p><strong>&#9888; Key insight:</strong> Capacitive coupling only works with <strong>alternating voltage</strong> (AC). A DC (direct current) voltage, such as from a battery or solar panel, does not create a varying electric field and cannot be detected by a standard non-contact voltage tester. Always use a contact meter for DC circuits.</p>
+    </div>
+
+    <h2>The IC Chip Inside: How a $0.50 Microcontroller Detects Fields</h2>
+    <p>At the heart of every modern inductive voltage tester is a purpose-built <strong>voltage detection IC</strong>. These are monolithic silicon chips that integrate everything needed to sense AC electric fields and drive an indicator — typically an LED and/or a buzzer — from a single coin-cell or two AAA batteries.</p>
+    <p>A typical NCV IC like the <strong>Vir 武汉某厂商 NCV01 series</strong> or similar ASICs performs three key functions:</p>
+
+    <h3>1. Field Sensing Electrode</h3>
+    <p>The sensing tip of the tester is directly connected to the IC's input pin. This pin has an extremely high input impedance — typically greater than <strong>10 M&#937;</strong> — so it draws virtually no current from the AC field it's monitoring. This high impedance is critical: it ensures the IC can detect the tiny displacement currents induced by the AC electric field without significantly loading the source.</p>
+
+    <h3>2. Signal Amplification & Rectification</h3>
+    <p>The AC electric field induces a tiny alternating voltage at the IC input (often just millivolts). The IC contains an internal <strong>MOSFET input amplifier</strong> with voltage gain of ~100&#215; to 1000&#215;, boosting the signal to a usable level. An internal rectifier then converts the amplified AC signal into a DC voltage that can drive the output stage.</p>
+
+    <h3>3. Threshold Detection & Driver Output</h3>
+    <p>A built-in voltage comparator monitors the rectified signal against an internal reference (typically set to trigger at field strengths corresponding to roughly <strong>50&#8211;100 V AC</strong> for standard detection, though adjustable sensitivity models exist). When the threshold is exceeded, the IC activates the LED and/or buzzer driver.</p>
+
+    <p>Modern NCV ICs operate on supply voltages as low as <strong>1.8 V</strong>, consume quiescent currents under <strong>5 &#956;A</strong>, and can run from a single CR2032 coin cell for over a year of standby. The entire detection circuit — IC plus a few passive components — fits on a PCB smaller than a matchbook.</p>
+
+    <h2>The Signal Chain: From Electric Field to LED/Buzzer</h2>
+    <p>Understanding the complete signal path makes troubleshooting and proper use much easier. Here's the chain in five steps:</p>
+
+    <div class="step-flow">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-title">Electric Field</div>
+        <div class="step-desc">AC voltage creates an oscillating field around live conductors</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-title">Capacitive Coupling</div>
+        <div class="step-desc">Field induces AC voltage on tester tip through insulation</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-title">IC Amplification</div>
+        <div class="step-desc">High-impedance amplifier boosts signal; rectifier converts to DC</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-title">Indicator</div>
+        <div class="step-desc">Comparator triggers LED (visual) and/or buzzer (audio) alert</div>
+      </div>
+    </div>
+
+    <h2>Sensitivity Factors: What Affects Detection Range and Reliability</h2>
+    <p>No inductive voltage tester reads through unlimited distances or every type of insulation equally well. Several environmental and physical factors affect real-world sensitivity:</p>
+
+    <h3>Proximity to the Conductor</h3>
+    <p>The single biggest factor. Detection range typically drops from <strong>10&#8211;15 mm</strong> at direct contact to near zero at 50 mm or more, depending on the model. The electric field strength follows an inverse-square relationship with distance in free space.</p>
+
+    <h3>Insulation Thickness and Type</h3>
+    <p>Thicker insulation reduces capacitive coupling. Standard THHN/THWN wire (typical wall wiring) with <strong>2&#8211;3 mm</strong> of insulation can still be detected at up to 10 mm. Heavily insulated industrial cables (e.g., <strong>SWA armored cable</strong> with PVC/sheath layers totaling 8&#8211;12 mm) may reduce detection range by 50&#8211;70%.</p>
+
+    <h3>Humidity and Condensation</h3>
+    <p>Moisture on the tester's housing or in the surrounding air acts as a conductive path, which can cause <strong>false positives</strong> or ghost readings in damp environments. Some high-quality testers include humidity compensation circuitry or dampened response to reduce these nuisance trips.</p>
+
+    <h3>Shielded or Bonded Cables</h3>
+    <p>Metal conduit, shielded cables, or double-insulated cables with an earthed outer sheath will significantly attenuate or completely block the electric field. Do not rely on an NCV tester as your sole check for voltage inside metallic conduit.</p>
+
+    <h3>Battery Level</h3>
+    <p>As battery voltage drops below the IC's minimum operating threshold (typically <strong>1.6&#8211;1.8 V</strong> for coin cells), the amplifier gain falls and sensitivity decreases noticeably. Replace batteries regularly — many testers have a low-battery LED indicator.</p>
+
+    <h2>Safety Standards: IEC 61243-3 and CAT Ratings Explained</h2>
+    <p>Because inductive voltage testers are used in environments where electrical hazards exist, they must comply with internationally recognized safety standards.</p>
+
+    <h3>IEC 61243-3 — Voltage Detector Standard</h3>
+    <p>The <strong>International Electrotechnical Commission (IEC) standard 61243-3</strong> is the primary standard governing voltage detectors (including non-contact types). It defines:</p>
+    <ul>
+      <li>Minimum and maximum voltage detection thresholds</li>
+      <li>Response time requirements (typically &#8804; 1 second for detection)</li>
+      <li>Indication persistence requirements</li>
+      <li>Temperature range of operation</li>
+      <li>Insulation and creepage distances</li>
+    </ul>
+
+    <h3>CAT (Category) Ratings for Voltage Testers</h3>
+    <p>CET (or CAT) ratings classify testers by the maximum transient overvoltage they can withstand at the point of measurement. For NCV testers, the relevant categories are:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr><th>CAT Rating</th><th>Environment</th><th>Example Use Cases</th><th>Typical Withstand</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>CAT II</strong></td><td>Consumer-level loads</td><td>Outlets, light switches, appliances</td><td>Up to 2,500 V transient</td></tr>
+        <tr><td><strong>CAT III</strong></td><td>Distribution circuits</td><td>Main panels, circuit breakers, permanent wiring</td><td>Up to 4,000 V transient</td></tr>
+        <tr><td><strong>CAT IV</strong></td><td>Origin of installation</td><td>Utility meters, service entrances, overhead lines</td><td>Up to 6,000 V transient</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <p><strong>&#9888; Warning:</strong> An inductive voltage tester does <strong>not</strong> measure voltage magnitude — it only indicates presence or absence. For precise voltage measurement, always use a proper digital multimeter (DMM). NCV testers are a safety screening tool, not a measurement instrument.</p>
+    </div>
+
+    <h2>Maintenance Tips for Long-Term Reliability</h2>
+    <p>Keeping your inductive voltage tester in top condition ensures it doesn't let you down when it matters most:</p>
+    <ol>
+      <li><strong>Replace batteries at least every 12 months</strong>, even if the tester still seems to work. The IC operates on reduced gain as voltage drops, increasing false negatives.</li>
+      <li><strong>Keep the sensing tip clean</strong>. Dust, oil, and grime on the plastic tip can form a semi-conductive film that causes phantom readings. Wipe with a dry, lint-free cloth monthly.</li>
+      <li><strong>Test on a known live circuit monthly</strong> to confirm proper operation. Most testers have a built-in self-test function — use it.</li>
+      <li><strong>Store in a dry location</strong>. Prolonged exposure to high humidity (>85% RH) can degrade the plastic housing and affect the high-impedance input circuitry.</li>
+      <li><strong>Drop-test after any impact</strong>. Even if there's no visible damage, internal PCB connections or the IC bond wires can be compromised.</li>
+    </ol>
+
+    <h2>Conclusion</h2>
+    <p>Inductive voltage testers are elegant examples of applied physics — they convert the invisible oscillating electric field surrounding any live AC conductor into a simple, immediate visual or audio alert. At their core is a sub-dollar IC chip that exploits the physics of capacitive coupling to detect AC voltage without any physical contact with conductors.</p>
+    <p>Understanding the underlying principles — capacitive coupling, high-impedance sensing, threshold detection — helps you use these tools more intelligently, interpret their readings correctly, and appreciate why they are indispensable for safe electrical work.</p>
+
+    <!-- FAQ -->
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-section">
+      <div class="faq-item">
+        <div class="faq-q">Can an inductive voltage tester detect DC voltage?</div>
+        <div class="faq-a">No. Inductive voltage testers work by detecting the oscillating electric field produced by alternating current (AC). DC voltage produces a static field that does not induce a signal through capacitive coupling. To detect DC voltage, you need a contact-type voltage tester or a multimeter with DC voltage capability.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">How close do I need to hold the tester to a live wire to detect voltage?</div>
+        <div class="faq-a">For most standard non-contact voltage testers, the typical detection range is <strong>5&#8211;15 mm</strong> from an unshielded AC conductor with standard household insulation. Thicker insulation, shielded cables, or greater distances will reduce or eliminate detection. Always test on a known live circuit first to confirm your tester's effective range.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Why does my voltage tester beep near a wall even when the circuit is switched off?</div>
+        <div class="faq-a">This is usually caused by <strong>crosstalk from adjacent live conductors</strong> running parallel inside the wall. Even with the switch in the OFF position, the wire in the wall may still carry voltage from the supply side, or adjacent live wires can couple into the switched wire through capacitive coupling. Always verify by testing directly at the circuit breaker and confirming with a contact meter.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What is the difference between CAT III and CAT IV for voltage testers?</div>
+        <div class="faq-a"><strong>CAT III</strong> covers voltage measurements in the fixed installation of a building (e.g., distribution panels, hardwired circuits), with withstand ratings up to <strong>4,000 V</strong>. <strong>CAT IV</strong> covers measurements at the origin of the utility service — the point where the power enters a building — and must withstand up to <strong>6,000 V</strong>. For home and workshop use, a minimum of CAT III is recommended for most electrical work.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can a non-contact voltage tester give a false negative (fail to detect live voltage)?</div>
+        <div class="faq-a">Yes. False negatives are possible due to low battery voltage (reducing amplifier gain), very thick or shielded insulation, excessive distance from the conductor, or low amplitude AC fields (e.g., from heavily loaded conductors in long runs). Always follow up any NCV reading with a contact measurement using a calibrated digital multimeter before assuming a circuit is safe to work on.</div>
+      </div>
+    </div>
+
+    <!-- FAQ JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type": "Question", "name": "Can an inductive voltage tester detect DC voltage?", "acceptedAnswer": {"@type": "Answer", "text": "No. Inductive voltage testers work by detecting the oscillating electric field produced by alternating current (AC). DC voltage produces a static field that does not induce a signal through capacitive coupling. To detect DC voltage, you need a contact-type voltage tester or a multimeter with DC voltage capability."}},
+        {"@type": "Question", "name": "How close do I need to hold the tester to a live wire to detect voltage?", "acceptedAnswer": {"@type": "Answer", "text": "For most standard non-contact voltage testers, the typical detection range is 5-15 mm from an unshielded AC conductor with standard household insulation. Thicker insulation, shielded cables, or greater distances will reduce or eliminate detection. Always test on a known live circuit first to confirm your tester's effective range."}},
+        {"@type": "Question", "name": "Why does my voltage tester beep near a wall even when the circuit is switched off?", "acceptedAnswer": {"@type": "Answer", "text": "This is usually caused by crosstalk from adjacent live conductors running parallel inside the wall. Even with the switch in the OFF position, the wire in the wall may still carry voltage from the supply side, or adjacent live wires can couple into the switched wire through capacitive coupling. Always verify by testing directly at the circuit breaker and confirming with a contact meter."}},
+        {"@type": "Question", "name": "What is the difference between CAT III and CAT IV for voltage testers?", "acceptedAnswer": {"@type": "Answer", "text": "CAT III covers voltage measurements in the fixed installation of a building (e.g., distribution panels, hardwired circuits), with withstand ratings up to 4,000 V. CAT IV covers measurements at the origin of the utility service — the point where the power enters a building — and must withstand up to 6,000 V. For home and workshop use, a minimum of CAT III is recommended for most electrical work."}},
+        {"@type": "Question", "name": "Can a non-contact voltage tester give a false negative (fail to detect live voltage)?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. False negatives are possible due to low battery voltage (reducing amplifier gain), very thick or shielded insulation, excessive distance from the conductor, or low amplitude AC fields. Always follow up any NCV reading with a contact measurement using a calibrated digital multimeter before assuming a circuit is safe to work on."}}
+      ]
+    }
+    </script>
+
+    <!-- AUTHOR -->
+    <div class="author-card">
+      <div class="author-avatar">CY</div>
+      <div class="author-info">
+        <h4>CHINYOO Engineering Team</h4>
+        <p>Technical writers and electrical engineers specializing in test & measurement instruments, safety standards, and industrial instrumentation design.</p>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="article-cta">
+      <h3>Browse CHINYOO Voltage Testers</h3>
+      <p>Professional-grade non-contact voltage testers with IEC 61243-3 compliance, multi-CAT ratings, and built-in self-test. Ships worldwide.</p>
+      <a href="../products" class="cta-btn">View All Voltage Testers &#8594;</a>
+    </div>
+
+    <!-- RELATED PRODUCTS -->
+    <div class="related-products">
+      <h3>&#128722; Related Products</h3>
+      <div class="product-grid">
+        <div class="product-card">
+          <div class="product-icon">&#128293;</div>
+          <div class="product-name">NCV-01 Non-Contact Tester</div>
+          <div class="product-spec">AC 50-1000V | CAT III 1000V | LED+Buzzer</div>
+          <a href="../products/ncv-01" class="product-link">View Details &#8594;</a>
+        </div>
+        <div class="product-card">
+          <div class="product-icon">&#128200;</div>
+          <div class="product-name">DM-890 Digital Multimeter</div>
+          <div class="product-spec">6000 Counts | ±0.5% | CAT IV 600V</div>
+          <a href="../products/dm-890" class="product-link">View Details &#8594;</a>
+        </div>
+        <div class="product-card">
+          <div class="product-icon">&#9881;</div>
+          <div class="product-name">DM-200 AC/DC Clamp Meter</div>
+          <div class="product-spec">4000 Counts | AC/DC 400A | CAT III</div>
+          <a href="../products/dm-200" class="product-link">View Details &#8594;</a>
+        </div>
+      </div>
+    </div>
+
+  </article>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="nav-logo" style="color:#fff;">CHINYOO<span>.</span></div>
+      <p>Professional test and measurement instruments for electricians, engineers, and technicians worldwide. Quality instruments, fair prices.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Products</h4>
+      <ul>
+        <li><a href="../products">Voltage Testers</a></li>
+        <li><a href="../products">Digital Multimeters</a></li>
+        <li><a href="../products">Clamp Meters</a></li>
+        <li><a href="../products">Installation Testers</a></li>
+        <li><a href="../products">Accessories</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="../support">FAQs</a></li>
+        <li><a href="../support/calibration">Calibration Services</a></li>
+        <li><a href="../support/warranty">Warranty</a></li>
+        <li><a href="../support/downloads">Downloads</a></li>
+        <li><a href="../contact">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="../about">About CHINYOO</a></li>
+        <li><a href="../blog">Blog</a></li>
+        <li><a href="../news">News</a></li>
+        <li><a href="../careers">Careers</a></li>
+        <li><a href="../privacy">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2026 CHINYOO Electronics Co., Ltd. All rights reserved. | Professional Test & Measurement Instruments
+  </div>
+</footer>
+
+<!-- WhatsApp Float -->
+<a href="https://wa.me/8615000000000" target="_blank" class="wa-float" title="Chat on WhatsApp" rel="noopener">
+  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16.004 0h-.008C7.174 0 0 7.176 0 16c0 3.5 1.132 6.742 3.046 9.378L1.054 31.29l6.12-1.962A15.9 15.9 0 0 0 16.004 32C24.826 32 32 24.822 32 16S24.826 0 16.004 0zm9.296 22.588c-.376 1.06-1.742 1.928-2.846 2.17-.872.192-2.002.344-5.774-1.03-4.826-1.76-7.934-6.07-8.174-6.354-.238-.284-1.97-2.572-1.97-4.902s1.248-3.482 1.692-3.958c.444-.476.968-.594 1.288-.594.32 0 .636.002.912.016.29.016.678-.11 1.072.812.48 1.12 1.656 3.878 1.802 4.158.148.284.248.616.05.994-.2.376-.296.612-.592.938-.296.328-.624.736-.894 1.03-.296.322-.602.668-.258 1.31.346.642 1.53 2.72 3.288 4.404 2.262 2.17 4.168 2.844 4.76 3.16.592.316.94.262 1.286-.156.346-.418 1.484-1.728 1.894-2.32.41-.592.822-.494 1.386-.296.566.196 3.586 1.694 4.196 2.002.612.308.02.462-.822 1.318z"/></svg>
+</a>
+
+<script src="../main.js"></script>
+</body>
+</html>
