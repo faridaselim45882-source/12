@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CHINYOO 价值对比表 · 嫌贵应对工具</title>
+<style>
+:root{--blue:#1a4f9c;--blue2:#2a6cd4;--blue3:#e8f1ff;--line:#d6e2f5;--ink:#1c2c44;--mut:#5b7299;--ok:#1f9d55;--warn:#d98a00;}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink);background:#f5f8ff;line-height:1.6}
+nav.jumpnav{position:sticky;top:0;z-index:50;background:var(--blue);display:flex;gap:6px;align-items:center;padding:9px 14px;flex-wrap:wrap;box-shadow:0 2px 8px rgba(26,79,156,.25)}
+nav.jumpnav .jn-brand{color:#fff;font-weight:800;letter-spacing:.5px;margin-right:6px}
+nav.jumpnav a{color:#fff;background:rgba(255,255,255,.14);padding:5px 11px;border-radius:7px;text-decoration:none;font-size:13px;font-weight:600}
+nav.jumpnav a:hover{background:rgba(255,255,255,.3)}
+.wrap{max-width:1080px;margin:0 auto;padding:22px 16px 70px}
+header.top{background:linear-gradient(120deg,var(--blue),var(--blue2));color:#fff;border-radius:14px;padding:22px 24px;margin-bottom:18px}
+header.top h1{margin:0 0 6px;font-size:23px}
+header.top p{margin:0;opacity:.92;font-size:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:18px;box-shadow:0 2px 10px rgba(26,79,156,.05)}
+.card h2{margin:0 0 12px;font-size:18px;color:var(--blue);display:flex;align-items:center;gap:8px}
+.card h2 .n{background:var(--blue);color:#fff;width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:14px;flex:0 0 auto}
+.case{background:var(--blue3);border-left:4px solid var(--blue2);border-radius:0 10px 10px 0;padding:14px 16px;margin:10px 0;font-size:14px}
+.case b{color:var(--blue)}
+.steps{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+.step{flex:1;min-width:200px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.step .s{font-weight:800;color:var(--blue);font-size:13px;margin-bottom:4px}
+table.cmp{width:100%;border-collapse:collapse;font-size:13.5px}
+table.cmp th,table.cmp td{border:1px solid var(--line);padding:8px 9px;vertical-align:top}
+table.cmp thead th{background:var(--blue);color:#fff;text-align:center}
+table.cmp td.dim{background:var(--blue3);font-weight:700;color:var(--blue);width:17%}
+table.cmp td.col-us{background:#f0f7ff}
+table.cmp td.col-big{background:#fff8ef}
+table.cmp td.col-low{background:#fbfbfb}
+table.cmp [contenteditable]{outline:none;border-bottom:1px dashed #b9cdee;min-height:20px}
+table.cmp [contenteditable]:focus{background:#fffbe6}
+.inline{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0 14px}
+.inline label{font-size:13px;color:var(--mut);font-weight:600}
+.inline input[type=text]{padding:7px 10px;border:1px solid var(--line);border-radius:8px;font-size:14px;min-width:220px}
+.btn{background:var(--blue);color:#fff;border:0;border-radius:9px;padding:9px 16px;font-size:14px;font-weight:700;cursor:pointer}
+.btn:hover{background:var(--blue2)}
+.btn.ghost{background:#fff;color:var(--blue);border:1px solid var(--blue)}
+.btn.sm{padding:5px 11px;font-size:12.5px}
+.row-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+textarea.out{width:100%;min-height:200px;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:13.5px;line-height:1.6;font-family:inherit;background:#fcfdff}
+.tabs{display:flex;gap:6px;margin-bottom:8px}
+.tabs button{background:#eef4ff;border:1px solid var(--line);color:var(--blue);padding:6px 14px;border-radius:8px;cursor:pointer;font-weight:700;font-size:13.5px}
+.tabs button.on{background:var(--blue);color:#fff}
+.scards{display:flex;gap:12px;flex-wrap:wrap}
+.scard{flex:1;min-width:230px;border:1px solid var(--line);border-radius:11px;overflow:hidden}
+.scard .sh{background:var(--blue3);padding:10px 14px;font-weight:800;color:var(--blue);cursor:pointer;display:flex;justify-content:space-between}
+.scard .sbody{padding:12px 14px;font-size:13.5px;display:none}
+.scard.open .sbody{display:block}
+.scard .sbody .cp{margin-top:8px}
+.tag{display:inline-block;background:var(--blue3);color:var(--blue);border-radius:6px;padding:2px 8px;font-size:12px;font-weight:700;margin:2px 3px 2px 0}
+.note{font-size:12.5px;color:var(--mut);margin-top:8px}
+.prtip{color:var(--mut);font-size:12.5px;margin-top:6px}
+@media print{
+  nav.jumpnav,.row-btns,.tabs,.scards .sh,.prtip,.inline{display:none!important}
+  body{background:#fff}
+  .card{box-shadow:none;break-inside:avoid}
+  table.cmp{border:2px solid #000}
+  table.cmp th,table.cmp td{border:1px solid #333}
+}
+</style>
+</head>
+<body>
+<nav class="jumpnav">
+  <span class="jn-brand">CHINYOO</span>
+  <a href="../00_鹏哥成果总导航.html" target="_blank">成果总导航</a>
+  <a href="../00_网址导航.html" target="_blank">网址导航</a>
+  <a href="../CHINYOO_国际一线品牌采购方清单_推便宜替代品.html" target="_blank">国际一线品牌采购方清单</a>
+</nav>
+
+<header class="top">
+  <h1>价值对比表 · 嫌贵应对工具</h1>
+  <p>客户说"贵"的时候，不谈价格 —— 把价格翻译成价值，用一张带数据的事实对比表让客户自己算明白。本工具帮你 30 秒生成可发给客户的对比表 + 论证文案。</p>
+</header>
+
+<div class="wrap">
+
+  <div class="card">
+    <h2><span class="n">★</span>你的实战案例（为什么这套打法有效）</h2>
+    <div class="case">
+      <b>中东客户嫌价格高</b> → 你<b>没有去谈价格</b>，而是发了一张<b>对比表</b>：把价格、交期、合理率（良品率/合格率）等客户关心的问题，<b>一一列出数据和事实</b>，然后告诉对方：这个"价格"背后是有"价值"的。<br>
+      客户<b>没有回话</b>，<b>隔了两天直接下单</b>。
+    </div>
+    <div class="steps">
+      <div class="step"><div class="s">第 1 步 · 先认可</div>不接"贵"的话茬，回一句"I understand / 我理解"，把对抗变成同频。</div>
+      <div class="step"><div class="s">第 2 步 · 翻译成价值</div>用对比表把价格拆成：交期、良率、质保、认证、售后、产能——用数据说话，不喊口号。</div>
+      <div class="step"><div class="s">第 3 步 · 留白</div>发完不纠缠、不辩解。给客户 1–2 天自己算账的时间（你的案例就是隔两天静默下单）。</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">1</span>填这张对比表（可直接改，预设为 CHINYOO 真实数据）</h2>
+    <div class="inline">
+      <label>产品/型号（生成文案时引用）：</label>
+      <input type="text" id="prod" value="MVD765B 数显电笔">
+    </div>
+    <table class="cmp" id="cmp">
+      <thead>
+        <tr><th style="width:17%">价值维度</th><th class="col-us">CHINYOO（你）</th><th class="col-big">国际大牌（国际一线品牌 等）</th><th class="col-low">低价白牌/无牌</th></tr>
+      </thead>
+      <tbody id="cmpbody"><!-- rows injected by JS --></tbody>
+    </table>
+    <div class="note">蓝底=你，橙底=大牌，灰底=白牌。所有格子都能直接点进去改；价格请按你的<strong>实际报价单</strong>填写（电笔类已填真实出厂价，如 MVD765B ¥5.3）。</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">2</span>一键生成"给客户的论证文案"</h2>
+    <div class="tabs">
+      <button id="tabEn" class="on" onclick="setLang('en')">英文（海外客户）</button>
+      <button id="tabZh" onclick="setLang('zh')">中文</button>
+    </div>
+    <textarea class="out" id="out" readonly></textarea>
+    <div class="row-btns">
+      <button class="btn" onclick="gen()">生成 / 刷新文案</button>
+      <button class="btn ghost" onclick="copyOut()">复制文案</button>
+      <button class="btn ghost" onclick="window.print()">打印对比表（存 PDF 发给客户）</button>
+    </div>
+    <div class="note">文案会自动引用你表格里填的数据，并把"价格"翻译为"价值"。把 [客户名] / [你的名] 改成真实信息即可发。</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">3</span>嫌贵场景话术库（点开看，可复制）</h2>
+    <div class="scards" id="scards"><!-- injected --></div>
+    <div class="note">这些话术的底层逻辑和你中东案例一致：<b>不降价、不辩解，用"价值 + 事实"让客户自己判断</b>。复制后把括号里的内容换成你的真实数据。</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="n">!</span>几条铁律（避免把价值讲成廉价）</h2>
+    <p style="font-size:14px;margin:0">
+      <span class="tag">别说</span>"我比 国际一线品牌 便宜"（显得廉价、拉踩）<br>
+      <span class="tag">要说</span>"同功能、认证齐全、帮你留住预算敏感客户、毛利更高"<br><br>
+      <span class="tag">别说</span>"再便宜点吧你说多少"（自降身价、陷入价格战）<br>
+      <span class="tag">要说</span>"价格对应的是良率/质保/交期/认证，这些是隐形成本"<br><br>
+      <span class="tag">别说</span>发完长邮件追着问"考虑得怎么样"（你的案例是留白 2 天）<br>
+      <span class="tag">要说</span>发完对比表 + 一句"随时为你算一笔账"，然后等<br><br>
+      <span class="tag">数字口径</span>2008 创立·第 18 年 / 月产 20 万台 / 出口 30+ 国 / 132+ 型号 / 18 项专利 / CE·FCC·RoHS。报价一律取自公司报价表。
+    </p>
+  </div>
+
+</div>
+
+<script>
+const ROWS=[
+ ["单价（出厂价）","¥5.3（MVD765B 真实出厂价）","同规格 $6–9（≈¥45–65）","¥2–3，但无全检、良率无保证"],
+ ["交期（现货/常规）","7–15 天","4–8 周","3–6 周，常延期断货"],
+ ["良品率 / 出厂全检（AQL）","≥99.5%，逐只功能全检","≥99.8%，全检","无全检，约 90%，到货常有不良"],
+ ["质保期","18 个月","24 个月","无质保或仅 3 个月"],
+ ["认证","CE / FCC / RoHS 齐全","齐全","常缺失，无法进正规渠道"],
+ ["MOQ（起订量）","100–300 pcs，友好","偏高","低，但质量不稳"],
+ ["OEM / ODM 定制","支持激光雕刻、彩盒、说明书定制","有限","不支持"],
+ ["售后响应","24h 内邮件 / WhatsApp 回复","慢，走工单","常失联"],
+ ["产能 / 发货稳定","月产 20 万台，不缺货","稳定","常断货"],
+ ["单只隐性成本（退换+差评）","低","极低","高，吃掉你的毛利与信誉"]
+];
+
+const bodies=document.getElementById('cmpbody');
+ROWS.forEach((r,i)=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td class="dim">${r[0]}</td>`+
+    `<td class="col-us" contenteditable="true">${r[1]}</td>`+
+    `<td class="col-big" contenteditable="true">${r[2]}</td>`+
+    `<td class="col-low" contenteditable="true">${r[3]}</td>`;
+  bodies.appendChild(tr);
+});
+
+function getVals(){
+  const trs=bodies.querySelectorAll('tr');
+  const o={};
+  trs.forEach(tr=>{
+    const dim=tr.querySelector('.dim').textContent.trim();
+    const tds=tr.querySelectorAll('td');
+    o[dim]={us:tds[1].textContent.trim(),big:tds[2].textContent.trim(),low:tds[3].textContent.trim()};
+  });
+  return o;
+}
+
+let lang='en';
+function setLang(l){lang=l;document.getElementById('tabEn').classList.toggle('on',l==='en');document.getElementById('tabZh').classList.toggle('on',l==='zh');gen();}
+function g(k){return getVals()[k]||{us:'',big:'',low:''};}
+
+function gen(){
+  const prod=document.getElementById('prod').value.trim()||'本产品';
+  const price=g('单价（出厂价）'), lt=g('交期（现货/常规）'), yld=g('良品率 / 出厂全检（AQL）'),
+        war=g('质保期'), cert=g('认证'), oem=g('OEM / ODM 定制'), sup=g('售后响应'),
+        cap=g('产能 / 发货稳定'), hid=g('单只隐性成本（退换+差评）');
+  let t;
+  if(lang==='en'){
+    t=`Hi [Client Name],
+
+Thank you for the honest feedback on pricing — I fully understand, and I'm not here to push you into paying more. Let me just show you what the price actually covers, so you can decide with facts, not assumptions.
+
+For ${prod}, here is the real comparison:
+
+• Unit price: ${price.us} (our factory) vs ${price.big} for the same spec from top brands.
+• Lead time: ${lt.us} vs ${lt.big} — you restock faster and never miss a sales season.
+• Quality: ${yld.us} vs no guarantee from cheap unbranded sources (${yld.low}).
+• Warranty & cert: ${war.us} warranty, ${cert.us} certified — compliant for your local market.
+• Custom & support: ${oem.us}; ${sup.us}. ${cap.us}.
+• Hidden cost per unit: ${hid.us} vs ${hid.low} from no-name meters (returns + bad reviews eat your margin).
+
+A meter that fails 1 in 10 costs you far more in returns and reputation than one that simply works. The number isn't "higher" — it's the cost of reliability, certification, and standby support.
+
+Happy to walk you through any line. Either way, thanks for considering CHINYOO.
+
+Best,
+[Your Name] — [Your Company / Brand]`;
+  }else{
+    t=`[客户名] 您好，
+
+感谢您直白地反馈价格 —— 我完全理解，也绝不会劝您多花钱。我只想把"价格"背后到底是什么，用事实摆给您看，让您用数据判断，而不是凭感觉。
+
+以 ${prod} 为例，真实对比是这样的：
+
+• 单价：${price.us}（我们出厂价） vs ${price.big} 同规格国际大牌。
+• 交期：${lt.us} vs ${lt.big} —— 您补货更快，不踏空销售季。
+• 质量：${yld.us} vs 无牌货源基本无全检（${yld.low}）。
+• 质保与认证：${war.us} 质保，${cert.us} 齐全 —— 进正规渠道无忧。
+• 定制与售后：${oem.us}；${sup.us}。${cap.us}。
+• 单只隐性成本：${hid.us} vs 无牌表 ${hid.low}（退换+差评会吃掉您的毛利和信誉）。
+
+一只十只里坏一只的表，在退货和差评上花的钱，远不止差价。这个"价格"不是更贵，而是"可靠 + 认证 + 随时兜底"的成本。
+
+任一条都欢迎我给您算细账。无论合作与否，都谢谢您考虑 CHINYOO。
+
+[您的名字] — [您的公司 / 品牌]`;
+  }
+  document.getElementById('out').value=t;
+}
+
+function copyOut(){
+  const ta=document.getElementById('out');ta.select();
+  navigator.clipboard?navigator.clipboard.writeText(ta.value).then(()=>alert('已复制')):document.execCommand('copy');
+}
+
+const SCEN=[
+ ["中东客户（你的案例原型）",
+  "客户嫌贵 → 不发辩解，发对比表（价格/交期/良率/认证逐条列数据）→ 留白 2 天。\n核心句：\"This price isn't higher — it's the cost of reliability, certification and standby support.\"",
+  "我们不做最便宜的，我们做'最不会给您惹麻烦的'。您卖的是信誉，我们保的是您货架上的每一只都干活。"],
+ ["东南亚批发商",
+  "他们价格敏感但重视稳定供货。对比表重点放：交期 7–15 天、月产 20 万不缺货、CE/FCC/RoHS 能进正规渠道。\n核心句：\"Restock in 7–15 days, never miss your peak season.\"",
+  "您要的是薄利多销跑量，断货一次丢的客户比差价贵十倍。我们产能兜底，您只管卖。"],
+ ["北美采购 / 大批发",
+  "别填官网表单（黑洞）。走 LinkedIn 挖采购总监，一对一发对比表。重点放认证、质保、OEM 定制、隐性成本。\n核心句：\"A $2 meter that fails 1 in 10 costs more in returns than a $5 meter that works.\"",
+  "大牌贵在品牌溢价，我们贵在品质兜底。同样规格，您保留的毛利空间更大，客户体验不打折。"],
+ ["通用 / 任何客户",
+  "三步走：先认可 → 翻译成价值（对比表）→ 留白。绝不陷入'你再便宜点'的拉锯。\n核心句：\"Let the numbers speak — I'm not asking you to pay more, just to see what it covers.\"",
+  "价格您随时能找到更低的，但'到了客户手里不出事'这件事，是要用良率、认证和售后换的。我们把它写进了每一只。"],
+];
+const sc=document.getElementById('scards');
+SCEN.forEach((s,i)=>{
+  const d=document.createElement('div');d.className='scard';
+  d.innerHTML=`<div class="sh" onclick="this.parentNode.classList.toggle('open')">${s[0]}<span>▾</span></div>`+
+    `<div class="sbody"><div>${s[1].replace(/\n/g,'<br>')}</div>`+
+    `<div class="cp"><button class="btn sm" onclick="copyText(this)">复制话术</button>`+
+    `<div style="display:none">${s[2]}</div></div></div>`;
+  sc.appendChild(d);
+});
+function copyText(btn){
+  const card=btn.closest('.scard');
+  const txt=card.querySelector('.sbody').innerText.replace(/复制话术/,'');
+  navigator.clipboard?navigator.clipboard.writeText(txt).then(()=>btn.textContent='已复制'):(document.body.appendChild(Object.assign(document.createElement('textarea'),{value:txt})).select(),document.execCommand('copy'));
+  setTimeout(()=>btn.textContent='复制话术',1500);
+}
+
+gen();
+</script>
+</body>
+</html>
